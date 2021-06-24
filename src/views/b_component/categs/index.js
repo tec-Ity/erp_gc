@@ -1,0 +1,5 @@
+export {default as CategNav} from './CategNav'
+export {default as CategTitle} from './CategTitle'
+export {default as CategList} from './CategList'
+export {default as ModalAddCateg} from './ModalAddCateg'
+export {default as ModalUpdateCateg} from './ModalUpdateCateg'
