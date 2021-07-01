@@ -1,34 +1,35 @@
 import React, { useState } from "react";
 import {
-  ProductNav,
-  ProductTitle,
-  ModalAddProduct,
-  ProductList,
-} from "../../b_component/products/index";
+  PdNav,
+  PdTitle,
+  ModalAddPd,
+  PdList,
+} from "../../b_component/pds/index";
 import LoadingModal from "../../a_global/LoadingModal";
 
-export default function SfProducts() {
+export default function SfPds() {
   const [homeLink] = useState("/staff/home");
   const [ModalShow, set_ModalShow] = useState(false);
   const [LoadingModalShow, set_LoadingModalShow] = useState(false);
-  const [newProduct, set_newProduct] = useState();
+  const [newPd, set_newPd] = useState();
 
   return (
     <div className='container'>
-      <ProductNav homeLink={homeLink} />
-      <ProductTitle addProduct={() => set_ModalShow(true)} />
+      <PdNav homeLink={homeLink} />
+      <PdTitle addPd={() => set_ModalShow(true)} />
       <hr />
       {ModalShow && (
-        <ModalAddProduct
+        <ModalAddPd
           show={ModalShow}
           onHide={() => set_ModalShow(false)}
-          set_newProduct={set_newProduct}
+          set_newPd={set_newPd}
         />
       )}
       <LoadingModal show={LoadingModalShow} />
-      <ProductList
-        newProduct={newProduct}
-		homeLink={homeLink}
+
+      <PdList
+        newPd={newPd}
+        homeLink={homeLink}
         set_LoadingModalShow={set_LoadingModalShow}
       />
     </div>

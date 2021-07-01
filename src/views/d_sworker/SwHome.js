@@ -15,7 +15,7 @@ export default function SwHome() {
 
 			<hr />
 
-			<HomeList homeLink={homeLink} list={[]}/>
+			<HomeList homeLink={homeLink} list={['prods']}/>
 		</div>
 	);
 }

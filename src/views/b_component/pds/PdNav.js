@@ -2,7 +2,7 @@ import React from 'react'
 import {Breadcrumb} from 'react-bootstrap'
 
 
-export default function ProductNav(props){
+export default function PdNav(props){
 
 	return(
 		<Breadcrumb className="mt-3">

@@ -4,11 +4,9 @@ import {
   Button,
   Form,
   Col,
-  FormFile,
-  InputGroup,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { fetchGet_Prom, get_Prom, post_Prom } from "../../a_global/Api";
+
+import {  get_Prom, post_Prom } from "../../a_global/Api";
 
 export default function ModalAddBrand(props) {
   const [validated, set_validated] = useState();

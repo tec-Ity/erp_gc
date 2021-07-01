@@ -1,15 +1,12 @@
-import React ,{Component}from 'react'
-import NavTop from '../a_global/NavTop'
-import {fetchPost_Prom} from '../a_global/Api'
-import {useHistory, withRouter} from 'react-router-dom'
-import {useState} from 'react'
+import React from 'react'
+
 
 
 export default function LoginPage (props){
 
+
 	return(
 		<div className="">
-			
 			<div className="container tec-loginBox" style={{width:"400px"}}>
 			<div className="text-center mt-5">
 				<h2>Please Login</h2>
@@ -33,7 +30,7 @@ export default function LoginPage (props){
 					<button type="submit" className="btn btn-primary w-100 mt-3"> Login</button>
 
 					<div className="mt-3">
-						<span className="mt-5"><a href="#">Forgot password?</a></span>
+						<span className="mt-5"><a>Forgot password?</a></span>
 					</div>
 				</form>
 			</div>

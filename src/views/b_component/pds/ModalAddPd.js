@@ -4,7 +4,6 @@ import {
   Button,
   Form,
   Col,
-  InputGroup,
   ListGroup,
 } from "react-bootstrap";
 
@@ -22,6 +21,8 @@ export default function ModalAddPd(props) {
   const [brandId, setBrandId] = useState();
   const [showBrand, setShowBrand] = useState(false);
   const [brandValue, setBrandValue] = useState();
+  const [SecondLevelCategs, setSecondLevelCategs] = useState();
+
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Nations");
@@ -54,6 +55,17 @@ export default function ModalAddPd(props) {
     func();
   }, [brandFilter]);
 
+  const handleCategs = async (e) => {
+    const id = e.target.value;
+    const result = await get_Prom('/Categ/'+ id);
+    console.log(result)
+    if(result.status===200){
+      const childrenCategs = result.data.object.Categ_sons;
+      console.log(childrenCategs)
+      setSecondLevelCategs(childrenCategs);
+    }
+  };
+
   const handleImage = (e) => {
     const imgs = e.target.files && e.target.files;
     console.log(imgs);
@@ -80,8 +92,9 @@ export default function ModalAddPd(props) {
     obj.sort = parseInt(e.target.formGridSort.value);
     obj.unit = String(e.target.formGridUnit.value);
     obj.desp = String(e.target.formGridDesp.value);
-    // const result = await post_Prom("/PdPost", { obj });
+    obj.Categs = [e.target.formGridCateg.value];
     console.log(obj);
+    
     const formData = new FormData();
     console.log(imgData);
     for (let i = 0; i < imgData.length; i++) {
@@ -89,10 +102,10 @@ export default function ModalAddPd(props) {
       console.log(i);
       console.log(formData.get("image_" + i));
     }
-    // formData.append("file", pdLogo);
-    formData.append("obj", JSON.stringify(obj));
-    // console.log(formData.get('image'));
 
+    formData.append("obj", JSON.stringify(obj));
+
+    console.log(formData.get("obj"));
     const accessToken = localStorage.getItem("accessToken");
     console.log(accessToken);
     const result2 = await axios.post(get_DNS() + "/api/v1/PdPost", formData, {
@@ -105,7 +118,7 @@ export default function ModalAddPd(props) {
     if (result2.status === 200) {
       props.onHide();
       const pd = result2.data.object;
-      props.set_newProduct(pd);
+      props.set_newPd(pd);
       alert("商品添加成功！");
     } else {
       alert(result2.message);
@@ -218,11 +231,26 @@ export default function ModalAddPd(props) {
           {/* //////////////////////////////////// */}
           <Form.Row>
             <Col xs={12} md={6}>
-              <Form.Group controlId='formGridCateg'>
-                <Form.Label>所属分类 *</Form.Label>
-                <Form.Control as='select' required>
+              <Form.Group controlId='formGridCategFar'>
+                <Form.Label>一级分类 *</Form.Label>
+                <Form.Control as='select' required onChange={handleCategs}>
                   <option value=''>请选择分类</option>
                   {categs?.map((categ) => {
+                    return (
+                      <option value={categ._id} key={categ._id}>
+                        {categ.code}
+                      </option>
+                    );
+                  })}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Group controlId='formGridCateg'>
+                <Form.Label>二级分类 *</Form.Label>
+                <Form.Control as='select' required>
+                  <option value=''>请选择分类</option>
+                  {SecondLevelCategs?.map((categ) => {
                     return (
                       <option value={categ._id} key={categ._id}>
                         {categ.code}

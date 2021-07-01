@@ -4,8 +4,6 @@ import {
 	HomeNav,
 	HomeTitle,
 	HomeList,
-	HomeListShops,
-	HomeListUsers,
 } from "../b_component/home/index";
 
 export default function SfHome() {
@@ -18,7 +16,7 @@ export default function SfHome() {
 
 			<hr />
 
-			<HomeList homeLink={homeLink} list={['products', 'brands','categs']}/>
+			<HomeList homeLink={homeLink} list={['pds', 'brands','categs']}/>
 		</div>
 	);
 }

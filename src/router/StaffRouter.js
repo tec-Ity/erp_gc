@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Route, Switch, useHistory, Redirect } from "react-router-dom";
-import TestPage from "../views/a_global/TestPage";
+import { Route, Switch,  Redirect } from "react-router-dom";
 import SfHome from "../views/d_staff/SfHome";
-import SfProducts from "../views/d_staff/product/SfProducts";
-import SfProductInfo from "../views/d_staff/product/SfProductInfo";
+import SfPds from "../views/d_staff/pd/SfPds";
+import SfPdInfo from "../views/d_staff/pd/SfPdInfo";
 import SfBrands from "../views/d_staff/brand/SfBrands";
 import SfBrandInfo from "../views/d_staff/brand/SfBrandInfo";
 import SfCategs from '../views/d_staff/categ/SfCategs'
@@ -19,11 +18,11 @@ export default function StaffRouter(props) {
 				<SfHome homeLink={homeLink} />
 			</Route>
 
-			<Route exact path="/staff/home/products">
-				<SfProducts homeLink={homeLink} />
+			<Route exact path="/staff/home/pds">
+				<SfPds homeLink={homeLink} />
 			</Route>
-			<Route exact path="/staff/home/products/:_id">
-				<SfProductInfo homeLink={homeLink} />
+			<Route exact path="/staff/home/pds/:_id">
+				<SfPdInfo homeLink={homeLink} />
 			</Route>
 
 			<Route exact path="/staff/home/brands">
@@ -37,7 +36,6 @@ export default function StaffRouter(props) {
 				<SfCategs homeLink={homeLink} />
 			</Route>
 
-			<Route exact path="/test" component={TestPage} />
 
 			<Redirect to={homeLink} />
 		</Switch>

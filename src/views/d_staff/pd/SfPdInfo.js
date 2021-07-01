@@ -3,25 +3,33 @@ import { useParams, Link } from "react-router-dom";
 import { get_Prom } from "../../a_global/Api";
 import { Button } from "react-bootstrap";
 import {
-  ProductInfoNav,
-  ProductInfoTitle,
-  ProductInfoForm,
-  ProductInfoImage,
-} from "../../b_component/products/productInfo/index";
+  PdInfoNav,
+  PdInfoTitle,
+  PdInfoForm,
+  PdInfoImage,
+} from "../../b_component/pds/pdInfo/index";
+import LoadingModal from "../../a_global/LoadingModal";
 
-export default function SfProductInfo() {
+export default function SfPdInfo() {
   const [homeLink] = useState("/staff/home");
   const { _id } = useParams();
-  const [productInfo, set_ProductInfo] = useState();
+  const [productInfo, setProductInfo] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [newPd, set_newPd] = useState();
   const [newImage, setNewImage] = useState();
+  const [LoadingModalShow, setLoadingModalShow] = useState(true)
 
   useEffect(() => {
     async function func() {
+      if(productInfo!== null){
+        setLoadingModalShow(false)
+      }else{
+        setLoadingModalShow(true)
+      }
+      // setLoadingModalShow(true)
       const result = await get_Prom("/Pd/" + _id);
-      console.log(result.data.object);
-      set_ProductInfo(Object.assign({}, productInfo, result.data.object));
+      console.log(result.data?.object);
+      setProductInfo(Object.assign({}, productInfo, result.data?.object));
     }
 
     func();
@@ -29,8 +37,8 @@ export default function SfProductInfo() {
 
   return (
     <div className='container'>
-      <ProductInfoNav homeLink={homeLink} _id={_id} productInfo={productInfo} />
-      <ProductInfoTitle
+      <PdInfoNav homeLink={homeLink} _id={_id} productInfo={productInfo} />
+      <PdInfoTitle
         isDisabled={isDisabled}
         setIsDisabled={setIsDisabled}
         homeLink={homeLink}
@@ -38,20 +46,24 @@ export default function SfProductInfo() {
       />
 
       <hr />
-
+      {LoadingModalShow&&<LoadingModal show={LoadingModalShow}/>}
+      
       {productInfo && (
-        <ProductInfoForm
+        <PdInfoForm
           _id={_id}
           productInfo={productInfo}
           isDisabled={isDisabled}
           setIsDisabled={setIsDisabled}
-          set_ProductInfo={set_ProductInfo}
+          setProductInfo={setProductInfo}
+          setLoadingModalShow={setLoadingModalShow}
+          homeLink={homeLink}
+          set_newPd={set_newPd}
         />
       )}
 
       <hr className='my-4' />
-
-      <ProductInfoImage
+      
+      <PdInfoImage
         _id={_id}
         productImage={productInfo?.img_urls}
         set_newPd={set_newPd}
@@ -60,7 +72,7 @@ export default function SfProductInfo() {
       />
       <hr className='my-4' />
 
-      <Link to='/staff/home/products'>
+      <Link to='/staff/home/pds'>
         <Button variant='primary' className='mt-5'>
           返回
         </Button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { get_Prom, delete_Prom, put_Prom } from "../../a_global/Api";
-import { Form, Col, Button, Breadcrumb, Spinner } from "react-bootstrap";
+import { get_Prom, delete_Prom } from "../../a_global/Api";
+import {  Button, Spinner } from "react-bootstrap";
 import {
 	ShopInfoNav,
 	ShopInfoTitle,

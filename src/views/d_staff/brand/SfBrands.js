@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import {
 	BrandNav,
 	BrandTitle,
 	BrandList,
 	ModalAddBrand,
 } from "../../b_component/brands/index";
-import {
-	fetchGet_Prom,
-	get_Prom,
-	post_Prom,
-	delete_Prom,
-} from "../../a_global/Api";
 import LoadingModal from "../../a_global/LoadingModal";
 
 export default function SfBrands() {

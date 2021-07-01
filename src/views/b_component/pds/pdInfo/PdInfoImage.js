@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Form, Col, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { get_DNS, put_Prom, get_Prom } from "../../../a_global/Api";
-export default function ProductInfoImage(props) {
+export default function PdInfoImage(props) {
   const [image, set_image] = useState([]);
   const [imgData, setImgData] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
@@ -12,10 +12,8 @@ export default function ProductInfoImage(props) {
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Pd/" + props._id);
-      console.log(result.data.object);
       const productImage = result.data.object.img_urls;
       const imgs = productImage?.map((img) => get_DNS() + img);
-      console.log(imgs);
       set_image(imgs);
     }
     func();
@@ -111,33 +109,6 @@ export default function ProductInfoImage(props) {
                           // height='100%'
                           alt='产品图片'
                         />
-                        {showDelete && (
-                          <Card.Body>
-                            <Button
-                              variant='danger'
-                              onClick={async (e) => {
-                                e.preventDefault();
-                                const result = await put_Prom(
-                                  "/PdPut_ImgDelete/" + props._id,
-                                  {
-                                    del_imgs: {
-                                      img_urls: [img.split(get_DNS())[1]],
-                                    },
-                                  }
-                                );
-                                if (result.status === 200) {
-                                  props.setNewImage(result.data.object);
-                                  const i = image?.indexOf(img);
-                                  console.log(i);
-                                  // console.log(image.splice(i,1))
-                                  // set_image(image.splice(i,1))
-                                  console.log("删除成功");
-                                }
-                              }}>
-                              删除
-                            </Button>
-                          </Card.Body>
-                        )}
                       </Card>
                     );
                   })

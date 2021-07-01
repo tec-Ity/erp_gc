@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, useHistory, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import MgHome from "../views/d_manager/MgHome";
 import MgShops from "../views/d_manager/shop/MgShops";
 import MgShopInfo from "../views/d_manager/shop/MgShopInfo";

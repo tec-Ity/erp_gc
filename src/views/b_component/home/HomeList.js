@@ -5,11 +5,11 @@ export default function HomeList(props) {
 	const [listName]=useState({
 		shops:"门店管理",
 		users:"员工管理",
-		products:"产品管理",
+		pds:"产品管理",
 		orders:"订单管理",
 		brands:"品牌管理",
 		categs:"分类管理",
-
+		prods:"商品管理"
 	})
 	
 	return (

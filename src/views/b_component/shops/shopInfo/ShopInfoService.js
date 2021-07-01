@@ -103,7 +103,7 @@ export default function ShopInfoService(props) {
 
 	const handleAddNew = async (e) => {
 		e.preventDefault();
-		const obj = new Object();
+		const obj = {};
 		obj.Cita = String(e.target.newCity.value);
 		obj.price_ship = parseFloat(e.target.newFee.value);
 
@@ -123,12 +123,12 @@ export default function ShopInfoService(props) {
 	const handleChangeFee = async (e) => {
 		e.preventDefault();
 		const citaId = e.target[1].id;
-		const obj = new Object();
+		const obj = {};
 		obj.price_ship = e.target[1].value;
 		const result = await put_Prom(
 			"/ShopPut/" + props.shopInfo._id + "/serveCitaPut/" + citaId
 		,{obj});
-		if (result.status == 200) {
+		if (result.status === 200) {
 			props.set_newServ(result.data.object)
 			set_btnIndex(-1);
 			set_showChange(true);
@@ -138,13 +138,16 @@ export default function ShopInfoService(props) {
 		}
 	};
 
-	useEffect(async () => {
-		const result = await get_Prom("/Citas?excludes=" + [serveList]);
-		if (result.status == 200) {
-			set_avalCita(result.data.objects);
-		} else {
-			alert(result.message);
+	useEffect(() => {
+		async function func(){
+			const result = await get_Prom("/Citas?excludes=" + [serveList]);
+			if (result.status === 200) {
+				set_avalCita(result.data.objects);
+			} else {
+				alert(result.message);
+			}
 		}
+		func();
 	}, [showAdd]);
 
 	useEffect(() => {

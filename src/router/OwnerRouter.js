@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, useHistory, Redirect } from "react-router-dom";
+import { Route, Switch,   Redirect } from "react-router-dom";
 import OwHome from "../views/d_owner/OwHome";
 import OwShops from "../views/d_owner/shop/OwShops";
 import OwShopInfo from "../views/d_owner/shop/OwShopInfo";
