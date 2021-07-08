@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { ShopNav, ShopTitle, ShopList, ModalAddShop } from "../../b_component/shops/index";
-import { post_Prom } from "../../a_global/Api";
 
-export default function MgShops() {
-	const [homeLink] = useState("/manager/home");
+export default function MgShops(props) {
+	const [homeLink] = useState(props.homeLink);
 	const [ModalShow, set_ModalShow] = useState(false);
 	const [newShop, set_newShop] = useState();
 
@@ -19,6 +18,7 @@ export default function MgShops() {
 					show={ModalShow}
 					onHide={() => set_ModalShow(false)}
 					set_newShop={set_newShop}
+					homeLink={homeLink}
 				/>
 			)}
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import Home_Page from '../views/c_home/Home_Page'
 import LoginPage from "../views/c_login/LoginPage";
 import NavTop from "../views/a_global/NavTop";
 import { fetchPost_Prom, logout_Prom } from "../views/a_global/Api";
@@ -41,11 +40,11 @@ export default function App() {
     if (result.status !== 200) {
       set_isValid(false);
     } else {
-      const crUser = result.data.crUser;
+      const crUser = result.data?.crUser;
       localStorage.setItem("role_crUser", crUser.role);
       localStorage.setItem("name_crUser", crUser.nome);
-      localStorage.setItem("accessToken", result.data.accessToken);
-      localStorage.setItem("refreshToken", result.data.refreshToken);
+      localStorage.setItem("accessToken", result.data?.accessToken);
+      localStorage.setItem("refreshToken", result.data?.refreshToken);
       console.log(crUser);
       crUser.Shop && localStorage.setItem("crShop", crUser.Shop);
       setValue((value) => {
@@ -59,15 +58,15 @@ export default function App() {
     const param = parseInt(localStorage.getItem("role_crUser"));
     switch (param) {
       case 1:
-        return <OwnerRouter />;
+        return <OwnerRouter hLink='/owner/home'/>;
       case 3:
-        return <ManagerRouter />;
+        return <ManagerRouter hLink='/manager/home'/>;
       case 5:
-        return <StaffRouter />;
+        return <StaffRouter hLink='/staff/home'/>;
       case 101:
-        return <ShopBossRouter />;
+        return <ShopBossRouter hLink='/sboss/home'/>;
       case 105:
-        return <ShopWorkerRouter />;
+        return <ShopWorkerRouter hLink='/sworker/home'/>;
       default:
         return (
           <Switch>
@@ -86,7 +85,7 @@ export default function App() {
         icon_img={process.env.PUBLIC_URL + "/favicon.ico"}
         handleLogout={handleLogout}
       />
-      {roleRouter()}
+    {roleRouter()}
     </BrowserRouter>
   ) : (
     <BrowserRouter>

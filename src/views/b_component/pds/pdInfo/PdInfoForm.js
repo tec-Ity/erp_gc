@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, Col, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { get_Prom, put_Prom } from "../../../a_global/Api";
-import axios from "axios";
 
 export default function PdInfoForm(props) {
-  const [validated, set_validated] = useState();
+  const [validated] = useState();
   const [PdInfo, setPdInfo] = useState();
   const [nations, set_nations] = useState();
   const [categs, set_categs] = useState();
@@ -18,20 +17,25 @@ export default function PdInfoForm(props) {
   const [brandValue, setBrandValue] = useState();
   const [SecondLevelCategs, setSecondLevelCategs] = useState();
 
+  const {setLoadingModalShow}=props
+
+  useEffect(() => {
+    if (PdInfo !== null) {
+      setLoadingModalShow(false);
+    } else {
+      setLoadingModalShow(true);
+    }
+  }, [PdInfo, setLoadingModalShow]);
+
   useEffect(() => {
     async function func() {
-      if (PdInfo !== null) {
-        props.setLoadingModalShow(false);
-      } else {
-        props.setLoadingModalShow(true);
-      }
       setPdInfo(props.productInfo);
       setBrandValue(props.productInfo?.Brand?.code);
       setCategChild(props.productInfo?.Categs[0]);
       setBrandId(props.productInfo?.Brand?._id);
 
       const result = await get_Prom("/Nations");
-      set_nations(result.data.objects);
+      set_nations(result.data?.objects);
 
       const result2 = await get_Prom("/Categs");
       set_categs(result2.data.objects);
@@ -50,7 +54,7 @@ export default function PdInfoForm(props) {
       }
     }
     func();
-  }, [props.isDisabled, props]);
+  }, [props]);
 
   useEffect(() => {
     setBrandId(null);
@@ -92,10 +96,10 @@ export default function PdInfoForm(props) {
 
     console.log(result);
     if (result.status === 200) {
-      const pd = result.data.object;
+      const pd = result.data?.object;
       props.set_newPd(pd);
       alert("商品信息修改成功！");
-      props.setIsDisabled(true)
+      props.setIsDisabled(true);
     } else {
       alert(result.message);
     }
@@ -116,9 +120,9 @@ export default function PdInfoForm(props) {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
     console.log(result);
-    setCategFar(result.data.object);
+    setCategFar(result.data?.object);
     if (result.status === 200) {
-      const childrenCategs = result.data.object.Categ_sons;
+      const childrenCategs = result.data?.object.Categ_sons;
       console.log(childrenCategs);
       setSecondLevelCategs(childrenCategs);
     }
@@ -127,7 +131,7 @@ export default function PdInfoForm(props) {
   const handleCategChild = async (e) => {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
-    setCategChild(result.data.object);
+    setCategChild(result.data?.object);
   };
 
   return (

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Col, Button } from "react-bootstrap";
-import { get_Prom, post_Prom } from "../../../a_global/Api";
+import {  post_Prom } from "../../../a_global/Api";
 
 export default function ProductModalAdd(props) {
-  const [validated, setValidated] = useState();
+  const [validated, ] = useState();
   const [Attrs, setAttrs] = useState();
   const [IsControlStock, setIsControlStock] = useState();
   const [IsUsable, setIsUsable] = useState();
@@ -50,7 +50,7 @@ export default function ProductModalAdd(props) {
 
       if (result.status === 200) {
         alert("SKU添加成功");
-        props.setNewSKU(result.data.object);
+        props.setNewSKU(result.data?.object);
         props.onHide();
       } else {
         alert(result.message);
@@ -74,7 +74,7 @@ export default function ProductModalAdd(props) {
       props.DefaultProduct?.allow_backorder &&
         props.DefaultProduct?.allow_backorder
     );
-  }, [props.ProdInfo, props.Products]);
+  }, [props.ProdInfo, props.Products, props.Attrs, props.DefaultProduct]);
 
   return (
     <Modal

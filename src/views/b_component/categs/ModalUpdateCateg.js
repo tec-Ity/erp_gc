@@ -4,13 +4,11 @@ import {
   Button,
   Form,
   Col,
-  FormFile,
-  InputGroup,
 } from "react-bootstrap";
 import { put_Prom } from "../../a_global/Api";
 
 export default function ModalUpdateCateg(props) {
-  const [validated, set_validated] = useState();
+  const [validated, ] = useState();
   const handleDelete = () => {};
 
   const handleUpdateCateg = async (e) => {
@@ -28,7 +26,7 @@ export default function ModalUpdateCateg(props) {
     console.log(result);
     if (result.status === 200) {
       props.onHide();
-      const bd = result.data.object;
+      const bd = result.data?.object;
       props.set_newCateg(bd);
       alert("分类修改成功！");
     } else {

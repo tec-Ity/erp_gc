@@ -11,33 +11,32 @@ export default function PdList(props) {
   const getPdList = async () => {
     try {
       const result = await get_Prom("/Pds");
-      const pds = result.data.objects;
+      const pds = result.data?.objects;
       setPds(pds);
-      console.log(pds);
     } catch {
       // setPds(null);
     }
   };
-  const isSynced = (Prods) => {
-    for (let i = 0; i < Prods.length; i++) {
-      if (Prods[i].Shop === props.crShop) {
-        return true;
-      }
-    }
-    return false;
-  };
+
 
   useEffect(() => {
     getPdList();
-    console.log("update");
     if (Pds !== null) {
       props.set_LoadingModalShow(false);
     } else {
       props.set_LoadingModalShow(true);
     }
-  }, [props]);
+  }, [props, Pds]);
 
   useEffect(() => {
+    const isSynced = (Prods) => {
+      for (let i = 0; i < Prods.length; i++) {
+        if (Prods[i].Shop === props.crShop) {
+          return true;
+        }
+      }
+      return false;
+    };
     let pdList;
     if (Pds !== null) {
       props.set_LoadingModalShow(false);
@@ -81,12 +80,12 @@ export default function PdList(props) {
                       已同步
                     </Button>
                   ) : (
-                      <Button
-                        variant='success'
-                        value={pd._id}
-                        onClick={props.SyncProd}>
-                        同步
-                      </Button>
+                    <Button
+                      variant='success'
+                      value={pd._id}
+                      onClick={props.SyncProd}>
+                      同步
+                    </Button>
                   )
                 ) : (
                   localStorage.getItem("role_crUser") < 100 && (
@@ -102,7 +101,10 @@ export default function PdList(props) {
       );
     }
     setPdList(pdList);
-  }, [Pds, props.newPd]);
+  }, [
+    Pds,
+    props,
+  ]);
 
   return (
     <div className='container'>

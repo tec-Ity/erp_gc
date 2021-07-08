@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form, Col, Button, Card } from "react-bootstrap";
 import axios from "axios";
-import { get_DNS, put_Prom, get_Prom } from "../../../a_global/Api";
+import { get_DNS,  get_Prom } from "../../../a_global/Api";
 export default function PdInfoImage(props) {
   const [image, set_image] = useState([]);
   const [imgData, setImgData] = useState([]);
@@ -12,12 +12,12 @@ export default function PdInfoImage(props) {
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Pd/" + props._id);
-      const productImage = result.data.object.img_urls;
+      const productImage = result.data?.object.img_urls;
       const imgs = productImage?.map((img) => get_DNS() + img);
       set_image(imgs);
     }
     func();
-  }, [props.productImage, props.newImage]);
+  }, [props.productImage, props.newImage, props._id]);
 
   const handleImage = (e) => {
     const imgs = e.target.files && e.target.files;
@@ -51,7 +51,7 @@ export default function PdInfoImage(props) {
         },
       }
     );
-    
+
     console.log(result2);
     if (result2.status === 200) {
       setShowAdd(false);

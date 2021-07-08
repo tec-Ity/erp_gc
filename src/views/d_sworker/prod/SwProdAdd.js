@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { PdNav, PdTitle, PdList } from "../../b_component/pds/index";
+import {  PdList } from "../../b_component/pds/index";
 import { Breadcrumb } from "react-bootstrap";
 import LoadingModal from "../../a_global/LoadingModal";
 import { post_Prom } from "../../a_global/Api";
-import { Redirect } from "react-router-dom";
 
 export default function SwProdAdd(props) {
   const [LoadingModalShow, set_LoadingModalShow] = useState(false);
-  const [newPd, set_newPd] = useState();
+  const [newPd, ] = useState();
 
   const SyncProd = async (e) => {
+    console.log('sync')
     console.log(e.target.value);
     const result = await post_Prom("/ProdPost", {
       Pd: e.target.value,
@@ -17,9 +17,9 @@ export default function SwProdAdd(props) {
     });
     console.log(result);
     if (result.status === 200) {
-      console.log(props.homeLink + "/prods/" + result.data.object._id);
+      console.log(props.homeLink + "/prods/" + result.data?.object._id);
       window.location.href =
-        props.homeLink + "/prods/" + result.data.object._id;
+        props.homeLink + "/prods/" + result.data?.object._id;
       alert("同步成功");
     } else {
       alert(result.message);
@@ -35,7 +35,7 @@ export default function SwProdAdd(props) {
           商品管理
         </Breadcrumb.Item>
 
-        <Breadcrumb.Item href={props.homeLink + "/prods/prodAdd"} active>
+        <Breadcrumb.Item href="#" active>
           同步产品
         </Breadcrumb.Item>
       </Breadcrumb>

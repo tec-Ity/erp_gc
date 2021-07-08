@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import {
 	HomeNav,
 	HomeTitle,
 	HomeList,
 } from "../b_component/home/index";
 
-export default function MgHome() {
-	const [homeLink] = useState("/manager/home");
-
+export default function MgHome({homeLink}) {
+	
 	return (
 		<div className="container">
 			<HomeNav />

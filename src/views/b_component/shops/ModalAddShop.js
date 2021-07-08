@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Col, FormFile } from "react-bootstrap";
-import { fetchGet_Prom, get_Prom, post_Prom } from "../../a_global/Api";
+import { Modal, Button, Form, Col } from "react-bootstrap";
+import {  get_Prom, post_Prom } from "../../a_global/Api";
 
 export default function ModalAddShop(props) {
 	const [nations, setNations] = useState();
 	// const [nationList, setNationList] = useState();
 	const [areas, setAreas] = useState();
 	const [cities, setCities] = useState();
-	const [validated, setValidated] = useState(false);
+	const [validated, ] = useState(false);
 
 	const getNations = async () => {
 		const result = await get_Prom("/Nations");
 		// console.log(result)
-		setNations(result.data.objects);
+		setNations(result.data?.objects);
 	};
 
 	useEffect(() => {
@@ -22,18 +22,18 @@ export default function ModalAddShop(props) {
 	const handleNation = async (e) => {
 		const NationId = e.target.value;
 		const result = await get_Prom("/Areas?Nation=" + NationId);
-		setAreas(result.data.objects);
+		setAreas(result.data?.objects);
 	};
 
 	const handleArea = async (e) => {
 		const AreaId = e.target.value;
 		const result = await get_Prom("/Citas?Area=" + AreaId);
-		setCities(result.data.objects);
+		setCities(result.data?.objects);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const obj = new Object();
+		const obj = {};
 		obj.code = String(e.target.formGridCode.value);
 		obj.nome = String(e.target.formGridName.value);
 		obj.addr = String(e.target.formGridAddress.value);
@@ -42,7 +42,7 @@ export default function ModalAddShop(props) {
 		console.log(result);
 		if (result.status === 200) {
 			props.onHide();
-			const shop = result.data.object;
+			const shop = result.data?.object;
 			props.set_newShop(shop);
 		} else {
 			alert(result.message);
@@ -125,9 +125,6 @@ export default function ModalAddShop(props) {
 							>
 								<option value="">请选择区域</option>
 								{areas?.map((area,i) => {
-									{
-										/*console.log(area);*/
-									}
 									return (
 										<option value={area._id} key={i}>
 											{area.nome} ({area.code})
@@ -152,20 +149,6 @@ export default function ModalAddShop(props) {
 							</Form.Control>
 						</Form.Group>
 					</Form.Row>
-
-					{/* <Form.Group>
-	            <Form.File
-	              // className="position-relative"
-	              required
-	              name="file"
-	              label="File"
-	              // onChange={handleChange}
-	              // isInvalid={!!errors.file}
-	              // feedback={errors.file}
-	              id="formShopLogo"
-	              custom
-	            />
-	          </Form.Group>*/}
 				</Modal.Body>
 
 				<Modal.Footer>
@@ -173,7 +156,6 @@ export default function ModalAddShop(props) {
 						variant="primary"
 						type="submit"
 						className="mt-4"
-						// onClick={props.onHide}
 					>
 						添加
 					</Button>

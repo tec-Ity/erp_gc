@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Card, Spinner, Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { get_Prom } from "../../a_global/Api";
 import LoadingModal from "../../a_global/LoadingModal";
 
 function ShopCards(props) {
-  let shops = "";
+  let shops;
   if (props.Shops === null) {
-    props.set_LoadingModalShow(true);
+    shops = null;
   } else if (props.Shops.length > 0) {
-    props.set_LoadingModalShow(false);
-
     shops = props.Shops.map((shop) => (
       <Card
         border='primary'
@@ -36,7 +34,6 @@ function ShopCards(props) {
       </Card>
     ));
   } else {
-    props.set_LoadingModalShow(false);
     shops = <p>暂无门店</p>;
   }
   return shops;
@@ -57,6 +54,13 @@ export default function ShopList(props) {
     func();
   }, [props.newShop]);
 
+  useEffect(() => {
+    if (Shops === null) {
+      set_LoadingModalShow(true);
+    } else {
+      set_LoadingModalShow(false);
+    }
+  }, [Shops]);
   return (
     <div className='d-flex flex-wrap'>
       <ShopCards

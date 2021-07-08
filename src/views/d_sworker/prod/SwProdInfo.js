@@ -9,46 +9,44 @@ import {
 } from "../../b_component/prods/prodInfo/index";
 import LoadingModal from "../../a_global/LoadingModal";
 
-export default function SfProdInfo(props) {
+export default function SwProdInfo(props) {
   const { _id } = useParams();
   const [productInfo, setProductInfo] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [newProd, set_newProd] = useState();
   const [LoadingModalShow, setLoadingModalShow] = useState(true);
 
-  // useEffect(() => {
-  //   async function func() {
-  //     console.log(productInfo)
-  //     if (productInfo === null && productInfo === {}) {
-
-  //       setLoadingModalShow(true);
-  //     } else {
-  //       setLoadingModalShow(false);
-  //     }
-  //   }
-  //   func();
-  // }, [productInfo]);
-
   useEffect(() => {
+    console.log('b')
     async function func() {
+      console.log(' 2 ')
       setLoadingModalShow(true);
+      console.log(' 3 ')
+      
       const result = await get_Prom("/Prod/" + _id);
-      console.log(result);
-      console.log(result.data?.object);
-      if(result.data?.object !== null && result.data?.object!==undefined && Object.keys(result.data?.object).length!==0){
-        setLoadingModalShow(false);
-      }
-      if (result.status === 400) {
-        setTimeout(() => {
-          alert('商品信息不存在，请返回查看');
-          window.location.replace(props.homeLink+'/prods')
-        }, 5000);
-      }
-      setProductInfo(Object.assign({}, productInfo, result.data?.object));
+      console.log(' 4 ')
+      if (
+        result.data?.object !== null &&
+        result.data?.object !== undefined &&
+        Object.keys(result.data?.object).length !== 0
+        ) {
+          console.log('v')
+          setLoadingModalShow(false);
+          console.log('v1')
+        }
+        console.log(' 5 ')
+        if (result.status === 400) {
+          setTimeout(() => {
+            alert("商品信息不存在，请返回查看");
+            window.location.replace(props.homeLink + "/prods");
+          }, 5000);
+        }
+        console.log('setprod')
+      setProductInfo(result.data?.object);
     }
 
     func();
-  }, [newProd]);
+  }, [newProd, _id, props.homeLink]);
 
   return (
     <div className='container'>
@@ -66,7 +64,9 @@ export default function SfProdInfo(props) {
 
       <hr />
       {LoadingModalShow && <LoadingModal show={LoadingModalShow} />}
-
+      {/* {console.log(1)}
+      {console.log('prodInfo',productInfo)} */}
+      
       {productInfo && (
         <ProdInfoForm
           _id={_id}
@@ -83,8 +83,7 @@ export default function SfProdInfo(props) {
 
       <hr className='my-4' />
 
-
-      <Link to='/staff/home/prods'>
+      <Link to={props.homeLink + "/prods"}>
         <Button variant='primary' className='mt-5'>
           返回
         </Button>

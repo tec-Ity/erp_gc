@@ -7,8 +7,8 @@ import {
 } from "../../b_component/pds/index";
 import LoadingModal from "../../a_global/LoadingModal";
 
-export default function SfPds() {
-  const [homeLink] = useState("/staff/home");
+export default function SfPds(props) {
+  const [homeLink] = useState(props.homeLink);
   const [ModalShow, set_ModalShow] = useState(false);
   const [LoadingModalShow, set_LoadingModalShow] = useState(false);
   const [newPd, set_newPd] = useState();

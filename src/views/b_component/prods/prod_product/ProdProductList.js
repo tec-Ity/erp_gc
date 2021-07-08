@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { BsChevronExpand } from "react-icons/bs";
 import { Button, Form, Col, Card, Accordion } from "react-bootstrap";
 import { delete_Prom, put_Prom } from "../../../a_global/Api";
-import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 
 export default function ProdProductList(props) {
   return (
@@ -12,6 +11,7 @@ export default function ProdProductList(props) {
         props.Products?.map((product, index) => {
           return (
             <SkuCard
+              key={index}
               product={product}
               index={index}
               Attrs={props.Attrs}
@@ -31,8 +31,6 @@ function SkuCard(props) {
   const [Product, setProduct] = useState();
 
   useEffect(() => {
-    console.log(props.product);
-
     setProduct(props.product && props.product);
 
     setIsControlStock(
@@ -75,11 +73,11 @@ function SkuCard(props) {
           }
         }
       } else {
-        if(e.target.FormProductAttrNome && e.target.FormProductAttrOption) {
-            attrList.push({
-              nome: e.target.FormProductAttrNome.value,
-              option: e.target.FormProductAttrOption.value,
-            });
+        if (e.target.FormProductAttrNome && e.target.FormProductAttrOption) {
+          attrList.push({
+            nome: e.target.FormProductAttrNome.value,
+            option: e.target.FormProductAttrOption.value,
+          });
         }
       }
 
@@ -99,7 +97,7 @@ function SkuCard(props) {
 
       if (result.status === 200) {
         alert("SKU修改成功");
-        props.setNewSKU(result.data.object);
+        props.setNewSKU(result.data?.object);
         props.onHide();
       } else {
         alert(result.message);
@@ -112,25 +110,25 @@ function SkuCard(props) {
   const getAttrList = (attr) => {
     const attop = Product?.attrs?.find((at) => {
       return at.nome === attr.nome;
-    }).option;
-
-    const attTop = <option value={attop}>{attop}</option>;
+    })?.option;
 
     const attList = attr.options?.map((option, index) => {
       return (
-        attop !== option && (
-          <option value={option} key={option}>
+        attop !== option ? (
+          <option value={option || ""} key={option + (index + 1)}>
             {option}
           </option>
-        )
+        ):(<option value={option || ""} selected key={option + (index + 1)}>
+        {option}
+      </option>)
       );
     });
 
-    return [attTop, attList];
+    return [attList];
   };
 
   return (
-    <Card>
+    <Card key={props.index}>
       <Accordion.Toggle
         as={Card.Header}
         eventKey={props.index + 1}
@@ -143,7 +141,7 @@ function SkuCard(props) {
             &nbsp;----&nbsp;
             {Product?.attrs?.map((attr) => {
               return (
-                <span className='bg-white p-3 mx-3'>
+                <span className='bg-white p-3 mx-3' key={attr._id}>
                   {attr.nome + " : " + attr.option}
                 </span>
               );
@@ -169,7 +167,7 @@ function SkuCard(props) {
                   return (
                     <Col sm={3} className='mb-2' key={attr._id}>
                       <Form.Group controlId='FormProductAttrNome'>
-                        <Form.Control value={attr.nome} hidden />
+                        <Form.Control value={attr.nome || ""} hidden readOnly />
                       </Form.Group>
                       <Form.Group controlId='FormProductAttrOption'>
                         <Form.Label>{attr.nome}</Form.Label>
@@ -189,7 +187,7 @@ function SkuCard(props) {
                   <Form.Check
                     type='switch'
                     className='ml-2'
-                    id={'isUsable-switch-'+Product?._id}
+                    id={"isUsable-switch-" + Product?._id}
                     checked={IsUsable && IsUsable}
                     onChange={() => setIsUsable(!IsUsable)}
                   />
@@ -207,7 +205,7 @@ function SkuCard(props) {
                 <Form.Group controlId='FormProductPriceRegular'>
                   <Form.Label>商品标价</Form.Label>
                   <Form.Control
-                    value={Product?.price_regular}
+                    value={Product?.price_regular || ""}
                     onChange={(e) => {
                       setProduct({
                         ...Product,
@@ -221,7 +219,7 @@ function SkuCard(props) {
                 <Form.Group controlId='FormProductPriceSale'>
                   <Form.Label>商品卖价</Form.Label>
                   <Form.Control
-                    value={Product?.price_sale}
+                    value={Product?.price_sale || ""}
                     onChange={(e) => {
                       setProduct({
                         ...Product,
@@ -235,7 +233,11 @@ function SkuCard(props) {
                 <Form.Group controlId='FormProductLimitQuantity'>
                   <Form.Label>限购数量</Form.Label>
                   <Form.Control
-                    value={Product?.limit_quantity}
+                    value={
+                      Product?.limit_quantity === null
+                        ? 0
+                        : Product?.limit_quantity
+                    }
                     onChange={(e) => {
                       setProduct({
                         ...Product,
@@ -250,13 +252,16 @@ function SkuCard(props) {
               <Col>
                 <Form.Group controlId='FormProductNote'>
                   <Form.Label>采购通知</Form.Label>
-                  <Form.Control as='textarea'  value={Product?.purchase_note}
+                  <Form.Control
+                    as='textarea'
+                    value={Product?.purchase_note || ""}
                     onChange={(e) => {
                       setProduct({
                         ...Product,
                         purchase_note: e.target.value,
                       });
-                    }}/>
+                    }}
+                  />
                 </Form.Group>
               </Col>
             </Form.Row>
@@ -302,7 +307,7 @@ function SkuCard(props) {
                   <Form.Group controlId='FormProductQuantity'>
                     <Form.Label>库存数量</Form.Label>
                     <Form.Control
-                      value={Product?.quantity}
+                      value={Product?.quantity || ""}
                       onChange={(e) => {
                         setProduct({
                           ...Product,
@@ -318,7 +323,11 @@ function SkuCard(props) {
                   <Form.Group controlId='FormProductQuantityAlert'>
                     <Form.Label>库存警戒值</Form.Label>
                     <Form.Control
-                      value={Product?.quantity_alert}
+                      value={
+                        Product?.quantity_alert === null
+                          ? 0
+                          : Product?.quantity_alert
+                      }
                       onChange={(e) => {
                         setProduct({
                           ...Product,

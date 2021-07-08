@@ -1,33 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import { Modal, Form, Col, Button } from "react-bootstrap";
-import { post_Prom } from "../../../a_global/Api";
+
 
 export default function AttrModalAdd(props) {
-  const [validated, setValidated] = useState();
-  const handleSubmit = async (e) => {
-      try{
-        e.preventDefault();
-        const obj={};
-        obj.Prod=props._id;
-        obj.nome=String(e.target.FormAttrName.value);
-        obj.options=String(e.target.FormAttrValue.value);
-        console.log(obj)
-        const result = await post_Prom('/AttrPost' , {obj});
-        console.log(result);
-        if(result.status===200){
-            alert("属性添加成功");
-            props.setNewAttr(result.data.object)
-            props.onHide();
-        }
-        else{
-            alert(result.message)
-        }
-    } catch(error){
-        console.log(error)
-    }
-
-  };
-
+  const [validated, ] = useState();
   return (
     <Modal
       {...props}
@@ -37,7 +13,7 @@ export default function AttrModalAdd(props) {
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>添加属性</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit} noValidate validated={validated} autoComplete="off">
+      <Form onSubmit={props.handleAdd} noValidate validated={validated} autoComplete="off">
         <Modal.Body>
           <Form.Row>
             <Col md={4}>

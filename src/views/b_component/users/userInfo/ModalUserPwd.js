@@ -3,11 +3,11 @@ import { Form, Modal, Button, Col } from "react-bootstrap";
 import { put_Prom } from "../../../a_global/Api";
 
 export default function ModalUserPwd(props) {
-	const [validated, set_validiated] = useState();
+	const [validated, ] = useState();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const obj = new Object();
+		const obj = {};
 		obj.pwd = String(e.target.formGridPwd.value);
 		const result = await put_Prom("/UserPut/" + props.userId, {
 			obj,

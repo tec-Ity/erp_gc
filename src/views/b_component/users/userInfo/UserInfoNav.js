@@ -2,7 +2,6 @@ import React from "react";
 import {Breadcrumb} from 'react-bootstrap'
 
 export default function UserInfoNav(props) {
-	console.log(props.homeLink)
 	return (
 		<Breadcrumb className="mt-3">
 			<Breadcrumb.Item href={props.homeLink }>{"/  "}主页</Breadcrumb.Item>

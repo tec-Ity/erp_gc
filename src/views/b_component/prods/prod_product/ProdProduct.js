@@ -23,7 +23,7 @@ export default function ProdProduct(props) {
         {showAdd === true && (
           <ProductModalAdd
             _id={props._id}
-            Attrs={props.ProdInfo?.Attrs}
+            Attrs={props.newAttrs}
             Products={Products}
             show={showAdd}
             onHide={() => set_showAdd(false)}
@@ -35,7 +35,7 @@ export default function ProdProduct(props) {
       </div>
       <ProdProductList
         Products={Products}
-        Attrs={props.ProdInfo?.Attrs}
+        Attrs={props.newAttrs}
         setNewSKU={props.setNewSKU}
       />
     </div>

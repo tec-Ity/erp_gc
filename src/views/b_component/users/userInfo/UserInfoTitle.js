@@ -37,6 +37,12 @@ export default function UserInfoTitle(props) {
 							const result = await delete_Prom(
 								"/UserDelete/" + props._id
 							);
+							if(result.status === 200){
+								alert('删除成功')
+							}
+							else{
+								alert(result.message)
+							}
 						}}
 					>
 						删除员工

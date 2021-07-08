@@ -1,23 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Breadcrumb, Table, Button, Spinner } from "react-bootstrap";
+import React, { useState,  } from "react";
 import {
 	UserNav,
 	UserTitle,
 	UserTable,
 	ModalAddUser,
 } from "../../b_component/users/index";
-import {
-	fetchGet_Prom,
-	get_Prom,
-	post_Prom,
-	delete_Prom,
-} from "../../a_global/Api";
 import LoadingModal from "../../a_global/LoadingModal";
 
-export default function MgUsers() {
-	const [homeLink] = useState("/manager/home");
-	console.log(homeLink);
+export default function MgUsers(props) {
+	const [homeLink] = useState(props.homeLink);
 	const [ModalShow, setModalShow] = useState(false);
 	const [newUser, set_newUser] = useState();
 	const [LoadingModalShow, set_LoadingModalShow] = useState(false);
@@ -41,6 +32,8 @@ export default function MgUsers() {
 			<hr />
 
 			<LoadingModal show={LoadingModalShow} />
+
+			
 			<UserTable
 				newUser={newUser}
 				homeLink={homeLink}

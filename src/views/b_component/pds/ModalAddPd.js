@@ -11,7 +11,7 @@ import { get_Prom, get_DNS } from "../../a_global/Api";
 import axios from "axios";
 
 export default function ModalAddPd(props) {
-  const [validated, set_validated] = useState();
+  const [validated, ] = useState();
   const [nations, set_nations] = useState();
   const [categs, set_categs] = useState();
   const [image, set_image] = useState([]);
@@ -26,7 +26,7 @@ export default function ModalAddPd(props) {
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Nations");
-      set_nations(result.data.objects);
+      set_nations(result.data?.objects);
       const result2 = await get_Prom("/Categs");
       set_categs(result2.data.objects);
     }
@@ -60,7 +60,7 @@ export default function ModalAddPd(props) {
     const result = await get_Prom('/Categ/'+ id);
     console.log(result)
     if(result.status===200){
-      const childrenCategs = result.data.object.Categ_sons;
+      const childrenCategs = result.data?.object.Categ_sons;
       console.log(childrenCategs)
       setSecondLevelCategs(childrenCategs);
     }

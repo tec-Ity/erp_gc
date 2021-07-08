@@ -9,17 +9,16 @@ import {
 
 import LoadingModal from "../../a_global/LoadingModal";
 export default function SfCategs(props) {
-  const [homeLink] = useState("/staff/home");
+  const [homeLink] = useState(props.homeLink);
   const [newCateg, set_newCateg] = useState();
   const [ModalShow, setModalShow] = useState(false);
   const [upModalShow, set_upModalShow] = useState(false);
   const [upCateg, set_upCateg] = useState();
-  const [categFars, set_categFars]=useState();
+  const [categFars, set_categFars] = useState();
   const [LoadingModalShow, set_LoadingModalShow] = useState(false);
-  
 
   return (
-    <div className="container">
+    <div className='container'>
       <CategNav homeLink={homeLink} />
 
       <CategTitle addCateg={() => setModalShow(true)} />
@@ -41,8 +40,8 @@ export default function SfCategs(props) {
         homeLink={homeLink}
         set_upModalShow={set_upModalShow}
         set_LoadingModalShow={set_LoadingModalShow}
-		set_upCateg={set_upCateg}
-		set_categFars={set_categFars}
+        set_upCateg={set_upCateg}
+        set_categFars={set_categFars}
       />
       {upModalShow && (
         <ModalUpdateCateg
@@ -51,13 +50,11 @@ export default function SfCategs(props) {
             set_upModalShow(false);
           }}
           set_newCateg={set_newCateg}
-		  upCateg={upCateg}
-		  set_upCateg={set_upCateg}
-		  set_newCateg={set_newCateg}
-		  categFars={categFars}
+          upCateg={upCateg}
+          set_upCateg={set_upCateg}
+          categFars={categFars}
         />
       )}
-
     </div>
   );
 }

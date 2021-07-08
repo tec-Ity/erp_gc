@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import {
-	HomeNav,
-	HomeTitle,
-	HomeList,
-} from "../b_component/home/index";
+import { HomeNav, HomeTitle, HomeList } from "../b_component/home/index";
 
-export default function SwHome() {
-	const [homeLink] = useState("/sworker/home");
+export default function SwHome(props) {
+  const [homeLink] = useState(props.homeLink);
 
-	return (
-		<div className="container">
-			<HomeNav />
-			<HomeTitle />
+  return (
+    <div className='container'>
+      <HomeNav />
+      <HomeTitle />
 
-			<hr />
+      <hr />
 
-			<HomeList homeLink={homeLink} list={['prods']}/>
-		</div>
-	);
+      <HomeList homeLink={homeLink} list={["prods"]} />
+    </div>
+  );
 }

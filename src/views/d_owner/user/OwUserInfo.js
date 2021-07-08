@@ -21,7 +21,7 @@ export default function OwUserInfo() {
 		const result = await get_Prom("/User/" + _id);
 		console.log(11111)
 		console.log(result)
-		set_userInfo(Object.assign({}, userInfo, result.data.object));
+		set_userInfo(Object.assign({}, userInfo, result.data?.object));
 	}, []);
 
 	const handleUpdatePwd = async () => {};

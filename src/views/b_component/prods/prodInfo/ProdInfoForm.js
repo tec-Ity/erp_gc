@@ -5,7 +5,7 @@ import ProdAttr from "../Prod_Attrs/ProdAttr";
 import ProdProduct from "../prod_product/ProdProduct";
 
 export default function ProdInfoForm(props) {
-  const [validated, set_validated] = useState();
+  const [validated] = useState();
   const [ProdInfo, setProdInfo] = useState();
   const [categs, set_categs] = useState();
   const [image, set_image] = useState([]);
@@ -14,13 +14,14 @@ export default function ProdInfoForm(props) {
   const [brand, setBrand] = useState([]);
   const [SecondLevelCategs, setSecondLevelCategs] = useState();
   const [newAttr, setNewAttr] = useState();
+  const [newAttrs, setNewAttrs] = useState();
   const [newSKU, setNewSKU] = useState();
+  const { setLoadingModalShow, _id, newProd } = props;
 
   useEffect(() => {
     async function func() {
-      props.setLoadingModalShow(true);
-      console.log(1111111111111);
-      const result = await get_Prom("/Prod/" + props._id);
+      setLoadingModalShow(true);
+      const result = await get_Prom("/Prod/" + _id);
       setProdInfo(result.data?.object);
 
       const result1 = await get_Prom("/Categs");
@@ -45,13 +46,11 @@ export default function ProdInfoForm(props) {
       const imgs = productImage?.map((img) => get_DNS() + img);
       set_image(imgs);
       if (productImage?.length === 0 || imgs?.length > 0) {
-        props.setLoadingModalShow(false);
+        setLoadingModalShow(false);
       }
-
-      console.log(11111111111111111111111)
     }
     func();
-  }, [props.newProd, newAttr, newSKU]);
+  }, [newProd, newAttr, newSKU, setLoadingModalShow, _id]);
 
   const handleUpdateProdInfo = async (e) => {
     e.preventDefault();
@@ -67,7 +66,7 @@ export default function ProdInfoForm(props) {
     console.log(result);
 
     if (result.status === 200) {
-      const pd = result.data.object;
+      const pd = result.data?.object;
       props.set_newProd(pd);
       alert("商品信息修改成功！");
       props.setIsDisabled(true);
@@ -79,10 +78,10 @@ export default function ProdInfoForm(props) {
   const handleCategs = async (e) => {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
-    setCategFar(result.data.object);
+    setCategFar(result.data?.object);
     console.log(result);
     if (result.status === 200) {
-      const childrenCategs = result.data.object.Categ_sons;
+      const childrenCategs = result.data?.object.Categ_sons;
       console.log(childrenCategs);
       setSecondLevelCategs(childrenCategs);
     }
@@ -91,7 +90,7 @@ export default function ProdInfoForm(props) {
   const handleCategChild = async (e) => {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
-    setCategChild(result.data.object);
+    setCategChild(result.data?.object);
   };
 
   return (
@@ -101,13 +100,10 @@ export default function ProdInfoForm(props) {
         {image?.length > 0 ? (
           image?.map((img, index) => {
             return (
-              <Card style={{ width: "100px" }} className='m-2' key={img._id}>
+              <Card style={{ width: "100px" }} className='m-2' key={index}>
                 <Card.Img
                   variant='top'
-                  key={img._id}
                   src={img}
-                  //   width='50px'
-                  // height='100%'
                   alt='产品图片'
                 />
               </Card>
@@ -129,7 +125,7 @@ export default function ProdInfoForm(props) {
                 type='text'
                 required
                 disabled
-                value={ProdInfo && ProdInfo.code}
+                value={ProdInfo?.code || ""}
               />
             </Form.Group>
           </Col>
@@ -140,7 +136,7 @@ export default function ProdInfoForm(props) {
                 type='text'
                 required
                 disabled
-                value={ProdInfo && ProdInfo.nome}
+                value={ProdInfo?.nome || ""}
               />
             </Form.Group>
           </Col>
@@ -154,14 +150,14 @@ export default function ProdInfoForm(props) {
                 type='input'
                 required
                 disabled
-                value={brand?.code}
+                value={brand?.code || ""}
               />
             </Form.Group>
           </Col>
           <Col xs={12} md={6}>
             <Form.Group controlId='formGridNation'>
               <Form.Label>所属国家</Form.Label>
-              <Form.Control value={ProdInfo?.Nation.nome} disabled />
+              <Form.Control value={ProdInfo?.Nation?.nome || ""} disabled />
             </Form.Group>
           </Col>
         </Form.Row>
@@ -183,7 +179,9 @@ export default function ProdInfoForm(props) {
                 required
                 disabled={props.isDisabled}
                 onChange={handleCategs}>
-                <option value={categFar?._id}>{categFar?.code}</option>
+                <option value={categFar?._id} key={categFar?._id}>
+                  {categFar?.code}
+                </option>
                 {categs?.map((categ) => {
                   return (
                     categ._id !== categFar?._id && (
@@ -205,7 +203,9 @@ export default function ProdInfoForm(props) {
                 disabled={props.isDisabled}
                 onChange={handleCategChild}>
                 {categChild && (
-                  <option value={categChild._id}>{categChild.code}</option>
+                  <option value={categChild._id} key={categChild._id}>
+                    {categChild.code}
+                  </option>
                 )}
                 {SecondLevelCategs?.map((categ) => {
                   return (
@@ -227,7 +227,7 @@ export default function ProdInfoForm(props) {
                 type='text'
                 required
                 disabled={props.isDisabled}
-                value={ProdInfo && ProdInfo.sort}
+                value={ProdInfo?.sort || ""}
                 onChange={(e) => {
                   setProdInfo({ ...ProdInfo, sort: e.target.value });
                 }}
@@ -245,7 +245,7 @@ export default function ProdInfoForm(props) {
                 type='text'
                 required
                 disabled={props.isDisabled}
-                value={ProdInfo && ProdInfo.price_regular}
+                value={ProdInfo?.price_regular || ""}
                 onChange={(e) => {
                   setProdInfo({ ...ProdInfo, price_regular: e.target.value });
                 }}
@@ -260,7 +260,7 @@ export default function ProdInfoForm(props) {
                 type='text'
                 required
                 disabled={props.isDisabled}
-                value={ProdInfo && ProdInfo.unit}
+                value={ProdInfo?.unit || ""}
                 onChange={(e) => {
                   setProdInfo({ ...ProdInfo, unit: e.target.value });
                 }}
@@ -279,7 +279,7 @@ export default function ProdInfoForm(props) {
                 size='lg'
                 required
                 disabled={props.isDisabled}
-                value={ProdInfo && ProdInfo.desp}
+                value={ProdInfo?.desp || ""}
                 onChange={(e) => {
                   setProdInfo({ ...ProdInfo, desp: e.target.value });
                 }}
@@ -294,7 +294,6 @@ export default function ProdInfoForm(props) {
               className='mt-4'
               onClick={async () => {
                 props.setIsDisabled(true);
-                //   window.location.reload();
               }}>
               取消更改
             </Button>
@@ -306,16 +305,28 @@ export default function ProdInfoForm(props) {
         )}
       </Form>
       <hr />
+      {/* {console.log("attr", props)} */}
+      {ProdInfo && (
+        <ProdAttr
+          _id={props._id}
+          ProdInfo={ProdInfo}
+          newAttr={newAttr}
+          setNewAttrs={setNewAttrs}
+          setNewAttr={setNewAttr}
+        />
+      )}
 
-      <ProdAttr
-        _id={props._id}
-        ProdInfo={ProdInfo}
-        newAttr={newAttr}
-        setNewAttr={setNewAttr}
-      />
       <hr />
-      <ProdProduct _id={props._id} ProdInfo={ProdInfo}  newSKU={newSKU}
-        setNewSKU={setNewSKU}/>
+
+      {ProdInfo && (
+        <ProdProduct
+          _id={props._id}
+          ProdInfo={ProdInfo}
+          newAttrs={newAttrs}
+          newSKU={newSKU}
+          setNewSKU={setNewSKU}
+        />
+      )}
     </div>
   );
 }

@@ -3,15 +3,16 @@ import { Modal, Form, Col, Button } from "react-bootstrap";
 import { put_Prom } from "../../../a_global/Api";
 
 export default function AttrModalUpdate(props) {
-  const [validated, setValidated] = useState();
+  const [validated] = useState();
   const [NewAttrValue, setNewAttrValue] = useState([]);
-  const [IsDisabled, setIsDisabled] = useState(true);
   const [BtnIndex, setBtnIndex] = useState(-1);
   const [Options, setOptions] = useState();
+  const [PrevOptions, setPrevOptions] = useState();
 
   useEffect(() => {
     async function func() {
-      props.attr?.options && setOptions(props.attr.options);
+      props.attr?.options && setOptions(props.attr?.options);
+      props.attr?.options && setPrevOptions(props.attr?.options);
     }
     func();
   }, [props.attr]);
@@ -26,7 +27,7 @@ export default function AttrModalUpdate(props) {
     console.log(result);
     if (result.status === 200) {
       alert("添加成功");
-      props.setNewAttr(result.data.object);
+      props.setNewAttr(result.data?.object);
     } else {
       alert(result.message);
     }
@@ -35,21 +36,35 @@ export default function AttrModalUpdate(props) {
   const handleUpdate = async (e, index, option) => {
     e.preventDefault();
     const putObj = {};
-    putObj.option = props.attr?.options[index];
+    putObj.option = PrevOptions[index];
     putObj.optionPut = option;
-    console.log(putObj);
-    console.log(props._id);
     const result = await put_Prom("/AttrPut/" + props._id + "/optionPut", {
       putObj,
     });
     if (result.status === 200) {
       alert("修改成功");
+      const array = [...PrevOptions].map((op) => {
+        if (op === PrevOptions[index]) {
+          op = option;
+        }
+        return op;
+      });
+      setPrevOptions(array);
+
+      const array2 = [...props.Attrs].map((at) => {
+        if (at._id === props.attr._id) {
+          return { ...props.attr, options: array };
+        } else {
+          return at;
+        }
+      });
+      props.setAttrs(array2);
       setBtnIndex(-1);
     } else {
       alert(result.message);
     }
   };
-  
+
   const handleDelete = async (option) => {
     const delObj = {};
     delObj.options = option;
@@ -59,7 +74,22 @@ export default function AttrModalUpdate(props) {
     console.log(result);
     if (result.status === 200) {
       alert("删除成功");
-      props.setNewAttr(result.data.object);
+      const array = [...Options].filter((op) => {
+        return op !== option;
+      });
+      setOptions(array);
+      setPrevOptions(array);
+
+      const array2 = [...props.Attrs].map((at) => {
+        if (at._id === props.attr._id) {
+          return { ...props.attr, options: array };
+        } else {
+          return at;
+        }
+      });
+      props.setAttrs(array2);
+
+      // props.setNewAttr(result.data?.object);
     } else {
       alert(result.message);
     }
@@ -120,7 +150,7 @@ export default function AttrModalUpdate(props) {
                     <Form.Group>
                       <Form.Control
                         value={option}
-                        disabled={IsDisabled && index !== BtnIndex}
+                        disabled={index !== BtnIndex}
                         onChange={(e) => {
                           let ops = [...Options];
                           ops[index] = e.target.value;
@@ -131,7 +161,7 @@ export default function AttrModalUpdate(props) {
                   </Col>
                   <Col>
                     <Form.Group>
-                      {IsDisabled && BtnIndex !== index ? (
+                      {BtnIndex !== index ? (
                         <div className='d-flex justify-content-center'>
                           <Button
                             variant='warning'
@@ -159,6 +189,7 @@ export default function AttrModalUpdate(props) {
                             className='ml-2'
                             onClick={() => {
                               setBtnIndex(-1);
+                              setOptions(PrevOptions);
                             }}>
                             取消
                           </Button>
@@ -172,11 +203,7 @@ export default function AttrModalUpdate(props) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            onClick={props.onHide}
-          >
-            完成添加
-          </Button>
+          <Button onClick={props.onHide}>完成添加</Button>
         </Modal.Footer>
       </Form>
     </Modal>

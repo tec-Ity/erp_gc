@@ -1,7 +1,6 @@
 import React from "react";
 import {Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import {delete_Prom} from '../../../a_global/Api'
 
 export default function ShopInfoTitle(props) {
 	return (

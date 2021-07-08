@@ -7,26 +7,29 @@ import { Link } from "react-router-dom";
 export default function ProdList(props) {
   const [Prods, setProds] = useState(null);
   const [ProdList, setProdList] = useState();
-
-  const getProdList = async () => {
-    try {
-      const result = await get_Prom("/Prods");
-      const prods = result.data.objects;
-      // console.log(prods)
-      setProds(prods);
-    } catch {
-      // setProds(null);
-    }
-  };
+  const {set_LoadingModalShow} = props
 
   useEffect(() => {
+    const getProdList = async () => {
+      try {
+        const result = await get_Prom("/Prods");
+        const prods = result.data?.objects;
+        // console.log(prods)
+        setProds(prods);
+      } catch {
+        // setProds(null);
+      }
+    };
     getProdList();
+  }, []);
+
+  useEffect(() => {
     if (Prods !== null) {
-      props.set_LoadingModalShow(false);
+      set_LoadingModalShow(false);
     } else {
-      props.set_LoadingModalShow(true);
+      set_LoadingModalShow(true);
     }
-  }, [props]);
+  }, [set_LoadingModalShow, Prods]);
 
   useEffect(() => {
     let prodList;
@@ -86,7 +89,7 @@ export default function ProdList(props) {
       );
     }
     setProdList(prodList);
-  }, [Prods, props.newProd]);
+  }, [Prods, props]);
 
   return (
     <div className='container'>

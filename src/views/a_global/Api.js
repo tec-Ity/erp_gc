@@ -40,7 +40,7 @@ const post_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPost_Prom(api_router, bodyObj);
-      if (result.status !== 200) {
+      if (result.status ===401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPost_Prom(api_router, bodyObj);
@@ -94,7 +94,7 @@ const postFile_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPostFile_Prom(api_router, bodyObj);
-      if (result.status !== 200) {
+      if (result.status ===401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPostFile_Prom(api_router, bodyObj);
@@ -144,7 +144,7 @@ const put_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPut_Prom(api_router, bodyObj);
-      if (result.status !== 200) {
+      if (result.status ===401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPut_Prom(api_router, bodyObj);
@@ -192,7 +192,7 @@ const get_Prom = (api_router) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchGet_Prom(api_router);
-      if (result.status !== 200) {
+      if (result.status ===401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchGet_Prom(api_router);
@@ -240,7 +240,7 @@ const delete_Prom = (api_router) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchDelete_Prom(api_router);
-      if (result.status !== 200) {
+      if (result.status ===401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchDelete_Prom(api_router);
@@ -272,7 +272,7 @@ const refreshToken_Prom = () => {
       });
       const result = await resPromise.json();
       if (result.status === 200) {
-        localStorage.setItem("accessToken", result.data.accessToken);
+        localStorage.setItem("accessToken", result.data?.accessToken);
       }
       resolve(result);
     } catch (error) {
