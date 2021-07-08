@@ -20,7 +20,7 @@ export default function ShopBossRouter() {
       <Route exact path={homeLink + "/users/:_id"}>
         <SbUserInfo homeLink={homeLink} />
       </Route>
-	  
+	  {/* {console.log(1)} */}
       <Route path='*'>
         <NotFound />
       </Route>
