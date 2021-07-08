@@ -19,6 +19,7 @@ export default function App() {
   // }
 
   const handleLogout = async () => {
+    // setValue((value) => value + 1);
     const result = await logout_Prom();
     if (result.status === 200) {
       localStorage.removeItem("accessToken");
@@ -26,9 +27,8 @@ export default function App() {
       localStorage.removeItem("role_crUser");
       localStorage.removeItem("name_crUser");
       localStorage.removeItem("crShop");
-      setValue((value) => value + 1);
-	  
     }
+    setValue((value) => value + 1);
   };
 
   const handleLogin = async (e) => {
@@ -58,15 +58,15 @@ export default function App() {
     const param = parseInt(localStorage.getItem("role_crUser"));
     switch (param) {
       case 1:
-        return <OwnerRouter hLink='/owner/home'/>;
+        return <OwnerRouter hLink='/owner/home' />;
       case 3:
-        return <ManagerRouter hLink='/manager/home'/>;
+        return <ManagerRouter hLink='/manager/home' />;
       case 5:
-        return <StaffRouter hLink='/staff/home'/>;
+        return <StaffRouter hLink='/staff/home' />;
       case 101:
-        return <ShopBossRouter hLink='/sboss/home'/>;
+        return <ShopBossRouter hLink='/sboss/home' />;
       case 105:
-        return <ShopWorkerRouter hLink='/sworker/home'/>;
+        return <ShopWorkerRouter hLink='/sworker/home' />;
       default:
         return (
           <Switch>
@@ -85,7 +85,7 @@ export default function App() {
         icon_img={process.env.PUBLIC_URL + "/favicon.ico"}
         handleLogout={handleLogout}
       />
-    {roleRouter()}
+      {roleRouter()}
     </BrowserRouter>
   ) : (
     <BrowserRouter>

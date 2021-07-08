@@ -3,9 +3,9 @@ import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import MgHome from "../views/d_manager/MgHome";
 import MgShops from "../views/d_manager/shop/MgShops";
 import MgShopInfo from "../views/d_manager/shop/MgShopInfo";
-import MgUsers from "../views/d_manager/user/MgUsers";
-import MgUserInfo from "../views/d_manager/user/MgUserInfo";
 import NotFound from "../views/a_global/NotFound";
+import SbUserInfo from "../views/d_sboss/user/SbUserInfo";
+import SbUsers from "../views/d_sboss/user/SbUsers";
 
 export default function ManagerRouter() {
   const [homeLink] = useState("/manager/home");
@@ -26,10 +26,10 @@ export default function ManagerRouter() {
       </Route>
 
       <Route exact path={homeLink + "/users/"}>
-        <MgUsers homeLink={homeLink} />
+        <SbUsers homeLink={homeLink} />
       </Route>
       <Route exact path={homeLink + "/users/:_id"}>
-        <MgUserInfo homeLink={homeLink} />
+        <SbUserInfo homeLink={homeLink} />
       </Route>
 
       <Redirect exact from='/' to={homeLink} />

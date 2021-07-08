@@ -111,20 +111,20 @@ function SkuCard(props) {
     const attop = Product?.attrs?.find((at) => {
       return at.nome === attr.nome;
     })?.option;
-
+    console.log(attop);
     const attList = attr.options?.map((option, index) => {
-      return (
-        attop !== option ? (
-          <option value={option || ""} key={option + (index + 1)}>
-            {option}
-          </option>
-        ):(<option value={option || ""} selected key={option + (index + 1)}>
-        {option}
-      </option>)
+      return attop !== option ? (
+        <option value={option || ""} key={option + (index + 1)}>
+          {option}
+        </option>
+      ) : (
+        <option value={option || ""} selected key={option + (index + 1)}>
+          {option}
+        </option>
       );
     });
-
-    return [attList];
+    
+    return attop? [attList]: [<option value="" >请选择属性</option>, attList];
   };
 
   return (

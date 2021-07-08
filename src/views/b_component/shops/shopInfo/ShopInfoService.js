@@ -178,7 +178,6 @@ export default function ShopInfoService(props) {
           </Col>
         </Form.Row>
       </Form>
-
       {showAdd && (
         <Form onSubmit={handleAddNew} noValidate validated={validated}>
           <Form.Row>

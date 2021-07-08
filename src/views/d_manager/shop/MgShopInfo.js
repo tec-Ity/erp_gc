@@ -22,7 +22,7 @@ export default function MgShopInfo(props) {
       set_ShopInfo(result.data?.object);
     }
 	func();
-  }, [_id]);
+  }, [_id, newServ]);
 
   const handleDeleteShop = async () => {
     const result = await delete_Prom("/ShopDelete/" + _id);
