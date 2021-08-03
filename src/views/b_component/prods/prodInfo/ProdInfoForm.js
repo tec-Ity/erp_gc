@@ -14,7 +14,7 @@ export default function ProdInfoForm(props) {
   const [brand, setBrand] = useState([]);
   const [SecondLevelCategs, setSecondLevelCategs] = useState();
   const [newAttr, setNewAttr] = useState();
-  const [newAttrs, setNewAttrs] = useState();
+  const [newAttrs, setNewAttrs] = useState([]);
   const [newSKU, setNewSKU] = useState();
   const { setLoadingModalShow, _id, newProd } = props;
 
@@ -23,6 +23,7 @@ export default function ProdInfoForm(props) {
       setLoadingModalShow(true);
       const result = await get_Prom("/Prod/" + _id);
       setProdInfo(result.data?.object);
+      setNewAttrs(result.data?.object.Attrs)
 
       const result1 = await get_Prom("/Categs");
       set_categs(result1.data?.objects);

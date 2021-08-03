@@ -6,9 +6,10 @@ import {
   PdInfoNav,
   PdInfoTitle,
   PdInfoForm,
-  PdInfoImage,
 } from "../../b_component/pds/pdInfo/index";
 import LoadingModal from "../../a_global/LoadingModal";
+import InfoImageSection from "../../a_global/image/InfoImageSection";
+import PdProdsList from "../../b_component/pds/pdInfo/PdProdsList";
 
 export default function SfPdInfo(props) {
   const [homeLink] = useState(props.homeLink);
@@ -29,11 +30,12 @@ export default function SfPdInfo(props) {
 
   useEffect(() => {
     async function func() {
+      console.log("call pd");
       const result = await get_Prom("/Pd/" + _id);
       setProductInfo(result.data?.object);
     }
     func();
-  }, [newPd, _id]);
+  }, [newPd, _id, newImage]);
 
   return (
     <div className='container'>
@@ -62,16 +64,19 @@ export default function SfPdInfo(props) {
       )}
 
       <hr className='my-4' />
-
-      <PdInfoImage
-        _id={_id}
-        productImage={productInfo?.img_urls}
-        set_newPd={set_newPd}
-        newImage={newImage}
-        setNewImage={setNewImage}
-      />
+      {productInfo && (
+        <InfoImageSection
+          _id={_id}
+          infoImage={productInfo?.img_urls}
+          sectionName='产品'
+          sectionApi='PdPut'
+        />
+      )}
       <hr className='my-4' />
+        {console.log('productinfo',productInfo)}
+      {productInfo && <PdProdsList prods={productInfo.Prods} />}
 
+      <hr className='my-4' />
       <Link to={homeLink + "/pds"}>
         <Button variant='primary' className='mt-5'>
           返回

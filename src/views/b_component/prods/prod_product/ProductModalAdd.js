@@ -45,7 +45,7 @@ export default function ProductModalAdd(props) {
       obj.quantity = e.target.FormProductQuantity.value;
 
       console.log(obj);
-      const result = await post_Prom("/ProductPost", { obj });
+      const result = await post_Prom("/SkuPost", { obj });
       console.log(result);
 
       if (result.status === 200) {
@@ -62,6 +62,7 @@ export default function ProductModalAdd(props) {
 
   useEffect(() => {
     setDefaultProduct(props.DefaultProduct);
+    console.log('attrs', props.Attrs)
     setAttrs(props.Attrs && props.Attrs);
     setIsControlStock(
       props.DefaultProduct?.is_controlStock &&

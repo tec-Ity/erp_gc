@@ -5,33 +5,38 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function PdList(props) {
+  const { newPd, homeLink, set_LoadingModalShow, crShop, syncProd, SyncProd } =
+    props;
   const [Pds, setPds] = useState(null);
   const [PdList, setPdList] = useState();
-
-  const getPdList = async () => {
-    try {
-      const result = await get_Prom("/Pds");
-      const pds = result.data?.objects;
-      setPds(pds);
-    } catch {
-      // setPds(null);
-    }
-  };
-
-
   useEffect(() => {
+    console.log("loading");
+    const getPdList = async () => {
+      try {
+        const resultPds = await get_Prom("/Pds");
+        const pds = resultPds.data?.objects;
+        console.log(pds);
+        setPds(pds);
+      } catch {
+        // setPds(null);
+      }
+    };
     getPdList();
-    if (Pds !== null) {
-      props.set_LoadingModalShow(false);
-    } else {
-      props.set_LoadingModalShow(true);
-    }
-  }, [props, Pds]);
+  }, [newPd]);
 
   useEffect(() => {
+    if (Pds !== null) {
+      set_LoadingModalShow(false);
+    } else {
+      set_LoadingModalShow(true);
+    }
+  }, [set_LoadingModalShow, Pds]);
+
+  useEffect(() => {
+    console.log("listing");
     const isSynced = (Prods) => {
       for (let i = 0; i < Prods.length; i++) {
-        if (Prods[i].Shop === props.crShop) {
+        if (Prods[i].Shop === crShop) {
           return true;
         }
       }
@@ -39,9 +44,9 @@ export default function PdList(props) {
     };
     let pdList;
     if (Pds !== null) {
-      props.set_LoadingModalShow(false);
+      set_LoadingModalShow(false);
     } else {
-      props.set_LoadingModalShow(true);
+      set_LoadingModalShow(true);
     }
     if (Pds === null) {
     } else {
@@ -54,6 +59,8 @@ export default function PdList(props) {
                 {pd.img_urls.length > 0 ? (
                   <img
                     width='50px'
+                    height="50px"
+                    style={{objectFit:"scale-down"}}
                     src={get_DNS() + pd.img_urls[0]}
                     alt={pd.code}
                   />
@@ -68,28 +75,25 @@ export default function PdList(props) {
               <td className=' align-middle' title={pd.code_bar}>
                 {pd.nome}
               </td>
-              <td className=' align-middle'>{pd.price}</td>
+              <td className=' align-middle'>{pd.price_regular}</td>
               <td className=' align-middle'>{pd.unit}</td>
               <td className=' align-middle'>{pd.Brand?.code}</td>
               <td className=' align-middle'>{pd.Nation.code}</td>
               <td className=' align-middle'>{pd.sort}</td>
               <td className=' align-middle'>
-                {props.syncProd === true ? (
+                {syncProd === true ? (
                   isSynced(pd.Prods) ? (
                     <Button variant='secondary' disabled>
                       已同步
                     </Button>
                   ) : (
-                    <Button
-                      variant='success'
-                      value={pd._id}
-                      onClick={props.SyncProd}>
+                    <Button variant='success' value={pd._id} onClick={SyncProd}>
                       同步
                     </Button>
                   )
                 ) : (
                   localStorage.getItem("role_crUser") < 100 && (
-                    <Link to={props.homeLink + "/pds/" + pd._id}>
+                    <Link to={homeLink + "/pds/" + pd._id}>
                       <Button variant='success'>管理</Button>
                     </Link>
                   )
@@ -101,10 +105,7 @@ export default function PdList(props) {
       );
     }
     setPdList(pdList);
-  }, [
-    Pds,
-    props,
-  ]);
+  }, [Pds, SyncProd, crShop, homeLink, set_LoadingModalShow, syncProd]);
 
   return (
     <div className='container'>

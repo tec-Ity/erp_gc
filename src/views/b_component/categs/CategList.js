@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { get_Prom } from "../../a_global/Api";
+import { get_DNS, get_Prom } from "../../a_global/Api";
 import {
   Button,
   ListGroup,
@@ -42,8 +42,7 @@ function ExpButton(props) {
 }
 
 function CategCard(props) {
-  const { cat, index, set_upCateg, set_upModalShow} =
-    props;
+  const { cat, index, set_upCateg, set_upModalShow } = props;
   return (
     <Card key={index}>
       <Card.Header className=' pl-1'>
@@ -61,6 +60,15 @@ function CategCard(props) {
             set_upCateg(cat);
           }}>
           {cat.code}
+          {cat.img_url && (
+            <img
+              src={get_DNS() + cat.img_url}
+              alt={cat.code}
+              width='50px'
+              height='50px'
+              style={{ objectFit: "scale-down" }}
+            />
+          )}
         </div>
       </Card.Header>
       <Accordion.Collapse eventKey={cat._id}>
@@ -78,6 +86,15 @@ function CategCard(props) {
                         set_upCateg(son);
                       }}>
                       {son.code}
+                      {son.img_url && (
+                        <img
+                          src={get_DNS() + son.img_url}
+                          alt={son.code}
+                          width='50px'
+                          height='50px'
+                          style={{ objectFit: "scale-down" }}
+                        />
+                      )}
                     </span>
                   </ListGroup.Item>
                 );
@@ -118,6 +135,7 @@ export default function CategList(props) {
       try {
         const result = await get_Prom("/Categs");
         const categs = result.data?.objects;
+        console.log(categs);
         setCategs(categs);
         set_categFars(categs);
       } catch {

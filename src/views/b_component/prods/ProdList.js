@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function ProdList(props) {
+  const {query} = props
   const [Prods, setProds] = useState(null);
   const [ProdList, setProdList] = useState();
   const {set_LoadingModalShow} = props
@@ -12,7 +13,8 @@ export default function ProdList(props) {
   useEffect(() => {
     const getProdList = async () => {
       try {
-        const result = await get_Prom("/Prods");
+        const result = query?await get_Prom('/prods?' + query):await get_Prom("/Prods");
+        console.log(result)
         const prods = result.data?.objects;
         // console.log(prods)
         setProds(prods);
@@ -49,6 +51,8 @@ export default function ProdList(props) {
                 {prod.img_urls.length > 0 ? (
                   <img
                     width='50px'
+                    height='50px'
+                    style={{objectFit:'scale-down'}}
                     src={get_DNS() + prod.img_urls[0]}
                     alt={prod.code}
                   />

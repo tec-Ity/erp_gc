@@ -1,36 +1,62 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  Col,
-} from "react-bootstrap";
-import { put_Prom } from "../../a_global/Api";
+import { Modal, Button, Form, Col } from "react-bootstrap";
+import { put_Prom, get_DNS, axios_Prom } from "../../a_global/Api";
+import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalUpdateCateg(props) {
-  const [validated, ] = useState();
-  const handleDelete = () => {};
+  const [validated] = useState();
+  const [imageURL, set_imageURL] = useState([
+    get_DNS() + props.upCateg?.img_url,
+  ]);
+  const [imgPath, setImgPath] = useState([]);
+  const [showChangeImg, setShowChangeImg] = useState(false);
+
+  const handleImage = (e) => {
+    console.log(e.target.files);
+    const imgs = e.target.files && e.target.files;
+    // console.log(imgs);
+    set_imageURL([URL.createObjectURL(imgs[0])]);
+    setImgPath([imgs[0]]);
+  };
+
+  const handleDelete = async () => {};
 
   const handleUpdateCateg = async (e) => {
-    e.preventDefault();
-    const obj = {};
-    obj.code = String(e.target.formGridCode.value);
-    console.log(obj.code);
-    props.upCateg.level === 2
-      ? (obj.Categ_far = String(e.target.formGridFar.value))
-      : (obj.Categ_far = null);
+    try {
+      e.preventDefault();
+      const obj = {};
+      obj.code = String(e.target.formGridCode.value);
+      console.log(obj.code);
+      props.upCateg.level === 2
+        ? (obj.Categ_far = String(e.target.formGridFar.value))
+        : (obj.Categ_far = null);
+      const formData = new FormData();
+      if (imgPath.length > 0 && showChangeImg === true) {
+        console.log(imgPath[0]);
+        formData.append("image", imgPath[0]);
+        const categUpdateResult = await axios_Prom(
+          "PUT",
+          "/CategPut_ImgPost/" + props.upCateg._id,
+          formData
+        );
+        console.log(categUpdateResult);
+        if (categUpdateResult.status !== 200) {
+          alert(categUpdateResult.message);
+        }
+      }
 
-    console.log(obj.categFars);
-    // obj.img_url = String(e.target.formGridNation.value);
-    const result = await put_Prom("/CategPut/" + props.upCateg._id, { obj });
-    console.log(result);
-    if (result.status === 200) {
-      props.onHide();
-      const bd = result.data?.object;
-      props.set_newCateg(bd);
-      alert("分类修改成功！");
-    } else {
-      alert(result.message);
+      const result = await put_Prom("/CategPut/" + props.upCateg._id, { obj });
+      console.log(result);
+      if (result.status === 200) {
+        props.onHide();
+        const bd = result.data?.object;
+        props.set_newCateg(bd);
+        alert("分类修改成功！");
+      } else {
+        alert(result.message);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -87,6 +113,55 @@ export default function ModalUpdateCateg(props) {
               </Col>
             )}
           </Form.Row>
+          {showChangeImg === false && (
+            <Form.Row>
+              <div>
+                <span className='m-2'>分类图片</span>
+                {imageURL.length > 0 ? (
+                  <>
+                    <div>
+                      <img
+                        src={imageURL[0]}
+                        alt={props.upCateg.code}
+                        width='100px'
+                        height='100px'
+                        style={{ objectFit: "scale-down" }}
+                      />
+                    </div>
+                    <Button
+                      variant='warning'
+                      className='m-2'
+                      onClick={() => {
+                        setShowChangeImg(true);
+                      }}>
+                      更换图片
+                    </Button>
+                  </>
+                ) : (
+                  <div>暂无图片</div>
+                )}
+              </div>
+            </Form.Row>
+          )}
+
+          {props.upCateg && showChangeImg && (
+            <>
+              <AddImage
+                handleImage={handleImage}
+                image={imageURL}
+                sectionName='分类'
+              />
+
+              <Button
+                variant='danger'
+                onClick={() => {
+                  setShowChangeImg(false);
+                  set_imageURL([get_DNS() + props.upCateg?.img_url]);
+                }}>
+                取消更改
+              </Button>
+            </>
+          )}
         </Modal.Body>
 
         <Modal.Footer>

@@ -41,13 +41,13 @@ export default function BrandList(props) {
                 {bd.img_url ? (
                   <img
                     width='50px'
-                    src={get_DNS() + bd.img_url.substring(1)}
+                    src={get_DNS() + bd.img_url}
                     alt={bd.nome}
                   />
                 ) : (
                   <img
                     width='50px'
-                    src={process.env.PUBLIC_URL + "/Pd_default.png"}
+                    src={process.env.PUBLIC_URL + "/brand.jpg"}
                     alt={bd.nome}
                   />
                 )}

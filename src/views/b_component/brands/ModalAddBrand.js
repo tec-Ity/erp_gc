@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Col } from "react-bootstrap";
-import { get_Prom, post_Prom } from "../../a_global/Api";
+import { axios_Prom, get_Prom } from "../../a_global/Api";
+import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalAddBrand(props) {
   const [validated] = useState();
   const [nations, set_nations] = useState();
+  const [imageURL, set_imageURL] = useState([]);
+  const [imgPath, setImgPath] = useState([]);
+
+  const handleImage = (e) => {
+    console.log(e.target.files)
+    const imgs = e.target.files && e.target.files;
+    // console.log(imgs);
+    set_imageURL([URL.createObjectURL(imgs[0])]);
+    setImgPath([imgs[0]]);
+  };
 
   useEffect(() => {
     async function func() {
@@ -15,21 +26,35 @@ export default function ModalAddBrand(props) {
   }, []);
 
   const handleAddBrand = async (e) => {
+    console.log(111);
     e.preventDefault();
     const obj = {};
     obj.code = String(e.target.formGridCode.value);
     obj.nome = String(e.target.formGridName.value);
     obj.Nation = String(e.target.formGridNation.value);
     obj.sort = parseInt(e.target.formGridSort.value);
-    const result = await post_Prom("/BrandPost", { obj });
-    console.log(result);
-    if (result.status === 200) {
-      props.onHide();
-      const bd = result.data?.object;
-      props.set_newBrand(bd);
-      alert("品牌添加成功！");
-    } else {
-      alert(result.message);
+    console.log(obj);
+
+    const formData = new FormData();
+    formData.append("image" , imgPath[0]);
+    formData.append("obj", JSON.stringify(obj));
+
+    try {
+      console.log(1);
+      const brand_result = await axios_Prom("POST", "/BrandPost", formData);
+      console.log(2);
+      console.log(brand_result);
+      if (brand_result.status === 200) {
+        props.onHide();
+        const bd = brand_result.data.object;
+        props.set_newBrand(bd);
+        alert("品牌添加成功！");
+      } else {
+        alert(brand_result.message);
+      }
+      // setDisableAddButton(false);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -82,6 +107,13 @@ export default function ModalAddBrand(props) {
               </Form.Group>
             </Col>
           </Form.Row>
+
+          <AddImage
+            handleImage={handleImage}
+            image={imageURL}
+            sectionName='品牌'
+            isSingle
+          />
         </Modal.Body>
 
         <Modal.Footer>

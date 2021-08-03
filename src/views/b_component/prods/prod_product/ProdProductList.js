@@ -45,7 +45,7 @@ function SkuCard(props) {
   const handleDelete = async (e) => {
     e.preventDefault();
     console.log(Product?._id);
-    const result = await delete_Prom("/ProductDelete/" + Product?._id);
+    const result = await delete_Prom("/SkuDelete/" + Product?._id);
     console.log(result);
 
     if (result.status === 200) {
@@ -92,7 +92,7 @@ function SkuCard(props) {
       obj.quantity = e.target.FormProductQuantity?.value;
 
       console.log(obj);
-      const result = await put_Prom("/ProductPut/" + Product?._id, { obj });
+      const result = await put_Prom("/SkuPut/" + Product?._id, { obj });
       console.log(result);
 
       if (result.status === 200) {
@@ -343,9 +343,9 @@ function SkuCard(props) {
               <Button variant='primary' type='submit' className='mt-4'>
                 保存修改
               </Button>
-              <Button variant='danger' className='mt-4' onClick={handleDelete}>
+              {props.index!==0 &&(<Button variant='danger' className='mt-4' onClick={handleDelete}>
                 删除SKU
-              </Button>
+              </Button>)}
             </div>
           </Form>
         </Card.Body>

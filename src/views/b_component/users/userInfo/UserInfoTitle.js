@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { delete_Prom } from "../../../a_global/Api";
-import { Link } from "react-router-dom";
+
 
 export default function UserInfoTitle(props) {
 	return (
@@ -29,7 +29,7 @@ export default function UserInfoTitle(props) {
 						修改密码
 					</Button>
 				)}
-				<Link to={props.homeLink + "/users"}>
+				{/* <Link to={props.homeLink + "/users"}> */}
 					<Button
 						variant="danger"
 						className="ml-3"
@@ -39,6 +39,7 @@ export default function UserInfoTitle(props) {
 							);
 							if(result.status === 200){
 								alert('删除成功')
+								props.hist.push(props.homeLink+'/users')
 							}
 							else{
 								alert(result.message)
@@ -47,7 +48,7 @@ export default function UserInfoTitle(props) {
 					>
 						删除员工
 					</Button>
-				</Link>
+				{/* </Link> */}
 			</div>
 		</div>
 	);

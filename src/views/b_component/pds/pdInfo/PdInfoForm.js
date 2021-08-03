@@ -17,7 +17,7 @@ export default function PdInfoForm(props) {
   const [brandValue, setBrandValue] = useState();
   const [SecondLevelCategs, setSecondLevelCategs] = useState();
 
-  const {setLoadingModalShow}=props
+  const { setLoadingModalShow } = props;
 
   useEffect(() => {
     if (PdInfo !== null) {
@@ -27,34 +27,45 @@ export default function PdInfoForm(props) {
     }
   }, [PdInfo, setLoadingModalShow]);
 
+
+
+
+
   useEffect(() => {
     async function func() {
       setPdInfo(props.productInfo);
       setBrandValue(props.productInfo?.Brand?.code);
-      setCategChild(props.productInfo?.Categs[0]);
+      setCategChild(props.productInfo?.Categs && props.productInfo?.Categs[0]);
       setBrandId(props.productInfo?.Brand?._id);
-
+      console.log("call Nations");
       const result = await get_Prom("/Nations");
       set_nations(result.data?.objects);
 
       const result2 = await get_Prom("/Categs");
       set_categs(result2.data.objects);
 
-      const result3 = await get_Prom(
-        "/Categ/" + props.productInfo?.Categs[0]?._id
-      );
-      setCategFar(result3.data?.object?.Categ_far);
+      if (props.productInfo?.Categs) {
+        const result3 = await get_Prom(
+          "/Categ/" + props.productInfo?.Categs[0]?._id
+        );
+        
+        if (result3.status === 200) {
+          setCategFar(result3.data?.object?.Categ_far);
 
-      const result4 = await get_Prom(
-        "/Categ/" + result3.data?.object?.Categ_far?._id
-      );
-      if (result4?.status === 200) {
-        const childrenCategs = result4?.data?.object?.Categ_sons;
-        setSecondLevelCategs(childrenCategs);
+          const result4 = await get_Prom(
+            "/Categ/" + result3.data?.object?.Categ_far?._id
+          );
+
+          if (result4?.status === 200) {
+            const childrenCategs = result4?.data?.object?.Categ_sons;
+            setSecondLevelCategs(childrenCategs);
+          }
+        }
+        
       }
     }
     func();
-  }, [props]);
+  }, [props.productInfo]);
 
   useEffect(() => {
     setBrandId(null);
@@ -244,17 +255,13 @@ export default function PdInfoForm(props) {
               as='select'
               required
               disabled={props.isDisabled}
-              onChange={handleCategs}>
-              {categFar && (
-                <option value={categFar._id}>{categFar.code}</option>
-              )}
+              onChange={handleCategs}
+              defaultValue={categFar?._id}>
               {categs?.map((categ) => {
                 return (
-                  categ._id !== categFar?._id && (
-                    <option value={categ._id} key={categ._id}>
-                      {categ.code}
-                    </option>
-                  )
+                  <option value={categ._id} key={categ._id}>
+                    {categ.code}
+                  </option>
                 );
               })}
             </Form.Control>
@@ -267,17 +274,16 @@ export default function PdInfoForm(props) {
               as='select'
               required
               disabled={props.isDisabled}
-              onChange={handleCategChild}>
-              {categChild && (
+              onChange={handleCategChild}
+              defaultValue={categChild?._id}>
+              {/* {categChild && (
                 <option value={categChild._id}>{categChild.code}</option>
-              )}
+              )} */}
               {SecondLevelCategs?.map((categ) => {
                 return (
-                  categ._id !== categChild?._id && (
-                    <option value={categ._id} key={categ._id}>
-                      {categ.code}
-                    </option>
-                  )
+                  <option value={categ._id} key={categ._id}>
+                    {categ.code}
+                  </option>
                 );
               })}
             </Form.Control>

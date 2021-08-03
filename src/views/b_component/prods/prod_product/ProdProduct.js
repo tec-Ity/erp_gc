@@ -9,8 +9,9 @@ export default function ProdProduct(props) {
   const [DefaultProduct, setDefaultProduct] = useState();
   const [Products, setProducts] = useState();
   useEffect(() => {
-    setDefaultProduct(props.ProdInfo?.Products[0]);
-    setProducts(props.ProdInfo?.Products);
+
+    setDefaultProduct(props.ProdInfo?.Skus[0]);
+    setProducts(props.ProdInfo?.Skus);
   }, [props.ProdInfo]);
 
   return (

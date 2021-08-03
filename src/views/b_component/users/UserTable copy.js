@@ -3,15 +3,13 @@ import { Table } from "react-bootstrap";
 import { get_Prom } from "../../a_global/Api";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import TableHeadSort from "../../a_global/filter/TableHeadSort";
 
 export default function UserTable(props) {
-  const { urlQuery, setUrlQuery, backPage, setBackPage } = props;
   const { newUser, set_LoadingModalShow, homeLink } = props;
   const [Users, setUsers] = useState([]);
   const [UserList, setUserList] = useState();
   const [atBottom, setAtBottom] = useState(false);
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(true)
   const [userRole] = useState({
     1: "拥有者",
     3: "管理者",
@@ -20,58 +18,27 @@ export default function UserTable(props) {
     105: "店铺员工",
   });
 
-  const [userTableHeader] = useState([
-    {
-      title: "序号",
-      value: "",
-      width: "10%",
-    },
-    {
-      title: "编号",
-      value: "code",
-      width: "18%",
-    },
-    {
-      title: "姓名",
-      value: "nome",
-      width: "18%",
-    },
-    {
-      title: "职位",
-      value: "role",
-      width: "18%",
-    },
-    {
-      title: "手机号",
-      value: "phone",
-      width: "18%",
-    },
-    {
-      title: "管理员工",
-      value: "",
-      width: "18%",
-    },
-  ]);
+  const { urlQuery, setUrlQuery, backPage, setBackPage } = props;
 
   useEffect(() => {
     const getUserList = async () => {
       try {
+
+        set_LoadingModalShow(true);
+        const obj = { ...urlQuery };
+        let query = "?";
+        for (const key in obj) {
+          query += "&" + key + "=" + obj[key];
+        }
         if (backPage !== urlQuery.page) {
-          set_LoadingModalShow(true);
-          const obj = { ...urlQuery };
-          let query = "?";
-          for (const key in obj) {
-            query += "&" + key + "=" + obj[key];
-          }
           const result = await get_Prom("/Users".concat(query));
+          // console.log(result);
           if (result.status === 200) {
             // set_LoadingModalShow(false);
             if (backPage === 0) {
               setUsers([]);
-              setIsMore(true);
             }
             const users = result.data?.objects;
-            setIsMore(result.data.count > backPage * urlQuery.pagesize);
             if (
               backPage === urlQuery.page - 1 &&
               users.length !== 0 &&
@@ -86,10 +53,11 @@ export default function UserTable(props) {
             alert(result.message + " ，请后退重试");
           }
         }
+        console.log(query)
         set_LoadingModalShow(false);
       } catch {
         set_LoadingModalShow(false);
-        alert("读取失败，请重试");
+        alert('读取失败，请重试')
         // setUsers(null);
       }
     };
@@ -112,7 +80,8 @@ export default function UserTable(props) {
         setAtBottom(false);
       }
     };
-    isMore === true && document.addEventListener("scroll", handleScroll);
+
+    document.addEventListener("scroll", handleScroll);
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
@@ -149,22 +118,19 @@ export default function UserTable(props) {
     return element.getBoundingClientRect().bottom <= window.innerHeight;
   };
 
-  const handleSortUser = (sortKey, sortVal) => {
-    setUrlQuery((prevQuery) => ({
-      ...prevQuery,
-      sortKey,
-      sortVal,
-    }));
-  };
-
   return (
     <div className='container' id='userTable'>
       <Table striped hover className='example'>
-        <TableHeadSort
-          tableHeaderObj={userTableHeader}
-          handleSort={handleSortUser}
-          restart = {urlQuery.sortKey===""?true:false}
-        />
+        <thead>
+          <tr>
+            <th width='10%'>序号</th>
+            <th width='18%'>编号</th>
+            <th width='18%'>姓名</th>
+            <th width='18%'>职位</th>
+            <th width='18%'>手机号</th>
+            <th width='18%'>管理员工</th>
+          </tr>
+        </thead>
         {Users !== null && UserList}
       </Table>
     </div>

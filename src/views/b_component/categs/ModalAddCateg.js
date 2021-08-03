@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Col } from "react-bootstrap";
-import { get_Prom, post_Prom } from "../../a_global/Api";
+import { get_Prom, axios_Prom } from "../../a_global/Api";
+import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalAddCateg(props) {
-  const [validated,] = useState();
+  const [validated] = useState();
   const [levFar, set_levFar] = useState();
   const [showFar, set_showFar] = useState(false);
+  const [imageURL, set_imageURL] = useState([]);
+  const [imgPath, setImgPath] = useState([]);
+
+  const handleImage = (e) => {
+    console.log(e.target.files)
+    const imgs = e.target.files && e.target.files;
+    // console.log(imgs);
+    set_imageURL([URL.createObjectURL(imgs[0])]);
+    setImgPath([imgs[0]]);
+  };
+
 
   useEffect(() => {
     async function func() {
@@ -24,17 +36,26 @@ export default function ModalAddCateg(props) {
     showFar
       ? (obj.Categ_far = String(e.target.formGridFar.value))
       : (obj.Categ_far = null);
-    // obj.img_url = String(e.target.formGridNation.value);
-    const result = await post_Prom("/CategPost", { obj });
-    console.log(result);
-    if (result.status === 200) {
-      props.onHide();
-      const bd = result.data?.object;
-      set_showFar(false);
-      props.set_newCateg(bd);
-      alert("分类添加成功！");
-    } else {
-      alert(result.message);
+    const formData = new FormData();
+    formData.append("image", imgPath[0]);
+    formData.append("obj", JSON.stringify(obj));
+
+    try {
+      console.log(1);
+      const categ_result = await axios_Prom("POST", "/CategPost", formData);
+      console.log(2);
+      console.log(categ_result);
+      if (categ_result.status === 200) {
+        props.onHide();
+        const cat = categ_result.data.object;
+        props.set_newCateg(cat);
+        alert("分类添加成功！");
+      } else {
+        alert(categ_result.message);
+      }
+      // setDisableAddButton(false);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -63,9 +84,10 @@ export default function ModalAddCateg(props) {
                   as='select'
                   required
                   onChange={(e) => {
-                    if (e.target.value === 2) {
+                    if (e.target.value === "2") {
+                      console.log(e.target.value);
                       set_showFar(true);
-                    } else if (e.target.value === 1) {
+                    } else if (e.target.value === "1") {
                       set_showFar(false);
                     }
                   }}>
@@ -75,7 +97,7 @@ export default function ModalAddCateg(props) {
               </Form.Group>
             </Col>
           </Form.Row>
-
+          {console.log(showFar)}
           {showFar && (
             <Form.Row>
               <Col xs={12} md={6}>
@@ -96,6 +118,13 @@ export default function ModalAddCateg(props) {
               </Col>
             </Form.Row>
           )}
+
+          <AddImage
+            handleImage={handleImage}
+            image={imageURL}
+            sectionName='分类'
+            isSingle
+          />
         </Modal.Body>
 
         <Modal.Footer>

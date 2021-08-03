@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  Col,
-  ListGroup,
-} from "react-bootstrap";
+import { Modal, Button, Form, Col, ListGroup } from "react-bootstrap";
 
-import { get_Prom, get_DNS } from "../../a_global/Api";
-import axios from "axios";
+import { get_Prom, axios_Prom } from "../../a_global/Api";
+import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalAddPd(props) {
-  const [validated, ] = useState();
+  const [validated] = useState();
   const [nations, set_nations] = useState();
   const [categs, set_categs] = useState();
-  const [image, set_image] = useState([]);
-  const [imgData, setImgData] = useState([]);
+  const [imageURL, set_imageURL] = useState([]);
+  const [imgPath, setImgPath] = useState([]);
   const [brands, setBrands] = useState([]);
   const [brandFilter, setBrandFilter] = useState();
   const [brandId, setBrandId] = useState();
   const [showBrand, setShowBrand] = useState(false);
   const [brandValue, setBrandValue] = useState();
   const [SecondLevelCategs, setSecondLevelCategs] = useState();
+  const [disableAddButton, setDisableAddButton] = useState(false);
 
   useEffect(() => {
     async function func() {
@@ -37,18 +32,18 @@ export default function ModalAddPd(props) {
     setBrandId(null);
     async function func() {
       if (brandFilter) {
-        console.log("filter", brandFilter);
+        // console.log("filter", brandFilter);
         const result3 = await get_Prom("/Brands?&search=" + brandFilter);
-        console.log("good", result3);
+        // console.log("good", result3);
         if (result3.status === 200 && result3.data.objects.length > 0) {
           if (result3.data.object !== null) {
             setBrandId(result3.data.object._id);
           }
-          console.log("list", result3.data.objects);
+          // console.log("list", result3.data.objects);
           setBrands(result3.data.objects);
         } else {
           setBrands([{ _id: null, code: "无品牌" }]);
-          console.log("无品牌");
+          // console.log("无品牌");
         }
       }
     }
@@ -57,31 +52,33 @@ export default function ModalAddPd(props) {
 
   const handleCategs = async (e) => {
     const id = e.target.value;
-    const result = await get_Prom('/Categ/'+ id);
-    console.log(result)
-    if(result.status===200){
-      const childrenCategs = result.data?.object.Categ_sons;
-      console.log(childrenCategs)
+    const categ_result = await get_Prom("/Categ/" + id);
+    // console.log(categ_result)
+    if (categ_result.status === 200) {
+      const childrenCategs = categ_result.data?.object.Categ_sons;
+      // console.log(childrenCategs)
       setSecondLevelCategs(childrenCategs);
     }
   };
 
   const handleImage = (e) => {
     const imgs = e.target.files && e.target.files;
-    console.log(imgs);
+    // console.log(imgs);
 
     if (imgs.length > 0) {
-      setImgData([]);
-      set_image([]);
+      setImgPath([]);
+      set_imageURL([]);
     }
 
     for (let i = 0; i < imgs.length; i++) {
-      set_image((image) => [...image, URL.createObjectURL(imgs[i])]);
-      setImgData((imgData) => [...imgData, imgs[i]]);
+      console.log(imgs[i]);
+      set_imageURL((image) => [...image, URL.createObjectURL(imgs[i])]);
+      setImgPath((imgPath) => [...imgPath, imgs[i]]);
     }
   };
 
   const handleAddPd = async (e) => {
+    console.log("c");
     e.preventDefault();
     const obj = {};
     obj.code = String(e.target.formGridCode.value);
@@ -93,41 +90,42 @@ export default function ModalAddPd(props) {
     obj.unit = String(e.target.formGridUnit.value);
     obj.desp = String(e.target.formGridDesp.value);
     obj.Categs = [e.target.formGridCateg.value];
-    console.log(obj);
-    
+    // console.log(obj);
+    console.log(imgPath);
     const formData = new FormData();
-    console.log(imgData);
-    for (let i = 0; i < imgData.length; i++) {
-      formData.append("image_" + i, imgData[i]);
-      console.log(i);
-      console.log(formData.get("image_" + i));
+    // console.log(imgPath);
+    for (let i = 0; i < imgPath.length; i++) {
+      formData.append("image_" + i, imgPath[i]);
+      // console.log(i);
+      // console.log(formData.get("image_" + i));
     }
-
     formData.append("obj", JSON.stringify(obj));
 
-    console.log(formData.get("obj"));
-    const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
-    const result2 = await axios.post(get_DNS() + "/api/v1/PdPost", formData, {
-      headers: {
-        "content-type": "application/json",
-        authorization: "accessToken " + accessToken,
-      },
-    });
-    console.log(result2);
-    if (result2.status === 200) {
-      props.onHide();
-      const pd = result2.data.object;
-      props.set_newPd(pd);
-      alert("商品添加成功！");
-    } else {
-      alert(result2.message);
+    // console.log(formData.get("obj"));
+
+    try {
+      console.log(1);
+      const pd_result = await axios_Prom("POST", "/PdPost", formData);
+      console.log(2);
+      console.log(pd_result);
+      if (pd_result.status === 200) {
+        props.onHide();
+        const pd = pd_result.data.object;
+        alert("商品添加成功！");
+        props.set_newPd(pd);
+        console.log(pd);
+      } else {
+        alert(pd_result.message);
+      }
+      setDisableAddButton(false);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const handleShowBrand = (e) => {
     if (e.target.value.length > 2) {
-      console.log(e.target.value);
+      // console.log(e.target.value);
       setBrandFilter(e.target.value);
       setShowBrand(true);
     } else {
@@ -191,7 +189,7 @@ export default function ModalAddPd(props) {
                     <ListGroup>
                       {brands?.length > 0 &&
                         brands?.map((brand) => {
-                          console.log("brand", brand);
+                          // console.log("brand", brand);
                           return (
                             <ListGroup.Item
                               action
@@ -292,48 +290,23 @@ export default function ModalAddPd(props) {
             </Col>
           </Form.Row>
           {/* //////////////////////////////////// */}
-          <Form.Row>
-            <Col>
-              <Form.Group>
-                <Form.Label>产品图片</Form.Label>
-                <div className='d-flex justify-content-start align-items-center flex-wrap'>
-                  {image.length > 0 &&
-                    image?.map((img, index) => {
-                      return (
-                        <img
-                          key={index}
-                          className=' m-2 d-block'
-                          src={img}
-                          width='10%'
-                          height='100%'
-                          alt='产品图片'
-                        />
-                      );
-                    })}
-                </div>
-                <Form.File
-                  required
-                  as='file'
-                  name='file'
-                  data-browse='选择文件'
-                  label='请选择产品图片'
-                  onChange={handleImage}
-                  multiple
-                  id='pdLogo'
-                  custom
-                />
-              </Form.Group>
-            </Col>
-          </Form.Row>
+
+          <AddImage
+            handleImage={handleImage}
+            image={imageURL}
+            sectionName='产品'
+          />
         </Modal.Body>
 
         <Modal.Footer>
           <Button
+            disabled={setDisableAddButton}
             variant='primary'
             type='submit'
             className='mt-4'
-            // onClick={props.onHide;}
-          >
+            onClick={(e) => {
+              setDisableAddButton(true);
+            }}>
             添加
           </Button>
         </Modal.Footer>

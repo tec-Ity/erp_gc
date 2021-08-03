@@ -1,8 +1,45 @@
-const api_DNS = "http://192.168.43.187:3000";
+import axios from "axios";
+
+// const api_DNS = "http://192.168.43.20:3000"; //ge
+const api_DNS = "http://192.168.43.187:3000"; //hy8
+// const api_DNS = "http://172.20.10.3:3000";//green
+// const api_DNS = "http://207.154.213.244:8000";//server
 const api_version = "/api/b1";
 
 export const get_DNS = () => {
   return api_DNS;
+};
+
+export const axios_Prom = async (type, api_router, formData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const api = api_DNS + api_version + api_router;
+      let result;
+      if (type === "POST") {
+        result = await axios.post(api, formData, {
+          headers: {
+            "content-type": "application/json",
+            authorization: "accessToken " + accessToken,
+          },
+        });
+      } else if (type === "PUT") {
+        result = await axios.put(api, formData, {
+          headers: {
+            "content-type": "application/json",
+            authorization: "accessToken " + accessToken,
+          },
+        });
+      }
+      console.log(result);
+      if (!result.data.status) return reject(result.data);
+
+      return resolve(result.data);
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  });
 };
 
 //post
@@ -40,7 +77,7 @@ const post_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPost_Prom(api_router, bodyObj);
-      if (result.status ===401) {
+      if (result.status === 401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPost_Prom(api_router, bodyObj);
@@ -94,7 +131,7 @@ const postFile_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPostFile_Prom(api_router, bodyObj);
-      if (result.status ===401) {
+      if (result.status === 401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPostFile_Prom(api_router, bodyObj);
@@ -144,7 +181,7 @@ const put_Prom = (api_router, bodyObj) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchPut_Prom(api_router, bodyObj);
-      if (result.status ===401) {
+      if (result.status === 401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchPut_Prom(api_router, bodyObj);
@@ -168,6 +205,7 @@ const fetchGet_Prom = (api_router) => {
     try {
       const token = localStorage.getItem("accessToken");
       const api = api_DNS + api_version + api_router;
+      console.log(api_router);
       const resPromise = await fetch(api, {
         headers: {
           "content-type": "application/json",
@@ -183,6 +221,7 @@ const fetchGet_Prom = (api_router) => {
       const result = await resPromise.json();
       resolve(result);
     } catch (error) {
+      console.log(error);
       reject({ message: "fetchGet_Prom error", error });
     }
   });
@@ -192,7 +231,7 @@ const get_Prom = (api_router) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchGet_Prom(api_router);
-      if (result.status ===401) {
+      if (result.status === 401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchGet_Prom(api_router);
@@ -240,7 +279,7 @@ const delete_Prom = (api_router) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = await fetchDelete_Prom(api_router);
-      if (result.status ===401) {
+      if (result.status === 401) {
         result = await refreshToken_Prom();
         if (result.status === 200) {
           result = await fetchDelete_Prom(api_router);

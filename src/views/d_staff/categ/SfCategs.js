@@ -43,7 +43,7 @@ export default function SfCategs(props) {
         set_upCateg={set_upCateg}
         set_categFars={set_categFars}
       />
-      {upModalShow && (
+      {upModalShow && upCateg && (
         <ModalUpdateCateg
           show={upModalShow}
           onHide={() => {

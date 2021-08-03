@@ -7,6 +7,7 @@ import {
   BrandInfoTitle,
   BrandInfoForm,
 } from "../../b_component/brands/brandInfo/index";
+import InfoImageSection from "../../a_global/image/InfoImageSection";
 
 export default function SfBrandInfo(props) {
   const [homeLink] = useState(props.homeLink);
@@ -18,9 +19,10 @@ export default function SfBrandInfo(props) {
     async function func() {
       const result = await get_Prom("/Brand/" + _id);
       set_brandInfo(result.data?.object);
+      console.log(result)
     }
     func();
-  }, [_id]);
+  }, [_id, ]);
 
 
   return (
@@ -41,7 +43,16 @@ export default function SfBrandInfo(props) {
         brandInfo={brandInfo}
         set_brandInfo={set_brandInfo}
       />
-      <hr />
+      <hr className='my-4' />
+      {brandInfo && (
+        <InfoImageSection
+          _id={_id}
+          infoImage={[brandInfo?.img_url]}
+          sectionName='品牌'
+          sectionApi='BrandPut'
+          isSingle
+        />
+      )}
 
       <Link to={homeLink+'/brands'}>
         <Button variant='primary' className='mt-5'>

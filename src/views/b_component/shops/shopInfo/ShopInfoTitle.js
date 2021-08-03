@@ -1,6 +1,5 @@
 import React from "react";
 import {Button} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
 
 export default function ShopInfoTitle(props) {
 	return (
@@ -19,7 +18,7 @@ export default function ShopInfoTitle(props) {
 					</Button>
 				)}
 
-				<Link to={props.homeLink + "/shops/"}>
+				{/* <Link to={props.homeLink + "/shops/"}> */}
 					<Button
 						variant="danger"
 						className="ml-3"
@@ -27,7 +26,7 @@ export default function ShopInfoTitle(props) {
 					>
 						删除门店
 					</Button>
-				</Link>
+				{/* </Link> */}
 			</div>
 		</div>
 	);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { get_Prom} from "../../a_global/Api";
 import { Button} from "react-bootstrap";
 import {
@@ -15,6 +15,7 @@ export default function SbUserInfo(props) {
   const [userInfo, set_userInfo] = useState();
   const [isDisabled, setIsDisabled] = useState(true);
   const [ModalPwdShow, setModalPwdShow] = useState(false);
+  const hist=useHistory();
 
   useEffect(() => {
     async function func() {
@@ -33,6 +34,7 @@ export default function SbUserInfo(props) {
         setIsDisabled={setIsDisabled}
         setModalPwdShow={setModalPwdShow}
         homeLink={homeLink}
+        hist={hist}
       />
 
       {ModalPwdShow && (

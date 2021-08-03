@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { get_Prom } from "../../a_global/Api";
+import { get_DNS, get_Prom } from "../../a_global/Api";
 import LoadingModal from "../../a_global/LoadingModal";
 
 function ShopCards(props) {
@@ -18,7 +18,11 @@ function ShopCards(props) {
         <Card.Img
           variant='top'
           className='m-auto pt-3 w-50'
-          src={process.env.PUBLIC_URL + "/Shop.png"}
+          src={
+            shop.img_url
+              ? get_DNS() + shop.img_url
+              : process.env.PUBLIC_URL + "/Shop.png"
+          }
         />
         <Card.Body className='text-center'>
           <Card.Title title={shop.addr}>
