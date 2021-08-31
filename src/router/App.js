@@ -24,8 +24,8 @@ export default function App() {
     if (result.status === 200) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      localStorage.removeItem("role_crUser");
-      localStorage.removeItem("name_crUser");
+      localStorage.removeItem("role_curUser");
+      localStorage.removeItem("name_curUser");
       localStorage.removeItem("crShop");
     }
     setValue((value) => value + 1);
@@ -40,13 +40,13 @@ export default function App() {
     if (result.status !== 200) {
       set_isValid(false);
     } else {
-      const crUser = result.data?.crUser;
-      localStorage.setItem("role_crUser", crUser.role);
-      localStorage.setItem("name_crUser", crUser.nome);
+      const curUser = result.data?.curUser;
+      localStorage.setItem("role_curUser", curUser.role);
+      localStorage.setItem("name_curUser", curUser.nome);
       localStorage.setItem("accessToken", result.data?.accessToken);
       localStorage.setItem("refreshToken", result.data?.refreshToken);
-      console.log(crUser);
-      crUser.Shop && localStorage.setItem("crShop", crUser.Shop);
+      console.log(curUser);
+      curUser.Shop && localStorage.setItem("crShop", curUser.Shop);
       setValue((value) => {
         return value + 1;
       });
@@ -55,7 +55,7 @@ export default function App() {
   };
 
   const roleRouter = () => {
-    const param = parseInt(localStorage.getItem("role_crUser"));
+    const param = parseInt(localStorage.getItem("role_curUser"));
     switch (param) {
       case 1:
         return <OwnerRouter hLink='/owner/home' />;

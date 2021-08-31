@@ -4,7 +4,7 @@ import { get_Prom, post_Prom } from "../../a_global/Api";
 
 export default function ModalAddUser(props) {
   const [validated] = useState();
-  const [crUR] = useState(localStorage.getItem("role_crUser"));
+  const [crUR] = useState(localStorage.getItem("role_curUser"));
   const [addUserRole, set_addUserRole] = useState(0);
   const [userRole] = useState([
     { value: 1, key: "拥有者" },

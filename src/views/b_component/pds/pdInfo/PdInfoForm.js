@@ -27,28 +27,20 @@ export default function PdInfoForm(props) {
     }
   }, [PdInfo, setLoadingModalShow]);
 
-
-
-
-
   useEffect(() => {
     async function func() {
       setPdInfo(props.productInfo);
       setBrandValue(props.productInfo?.Brand?.code);
-      setCategChild(props.productInfo?.Categs && props.productInfo?.Categs[0]);
+      setCategChild(props.productInfo?.Categ && props.productInfo?.Categ);
       setBrandId(props.productInfo?.Brand?._id);
       console.log("call Nations");
       const result = await get_Prom("/Nations");
       set_nations(result.data?.objects);
 
-      const result2 = await get_Prom("/Categs");
-      set_categs(result2.data.objects);
-
-      if (props.productInfo?.Categs) {
+      if (props.productInfo?.Categ) {
         const result3 = await get_Prom(
-          "/Categ/" + props.productInfo?.Categs[0]?._id
+          "/Categ/" + props.productInfo?.Categ?._id
         );
-        
         if (result3.status === 200) {
           setCategFar(result3.data?.object?.Categ_far);
 
@@ -61,14 +53,15 @@ export default function PdInfoForm(props) {
             setSecondLevelCategs(childrenCategs);
           }
         }
-        
       }
+      const result2 = await get_Prom("/Categs");
+      set_categs(result2.data.objects);
     }
     func();
   }, [props.productInfo]);
 
   useEffect(() => {
-    setBrandId(null);
+    // setBrandId(null);
     async function func() {
       if (brandFilter) {
         console.log("filter", brandFilter);
@@ -100,7 +93,7 @@ export default function PdInfoForm(props) {
     obj.sort = parseInt(e.target.formGridSort.value);
     obj.unit = String(e.target.formGridUnit.value);
     obj.desp = String(e.target.formGridDesp.value);
-    obj.Categs = [e.target.formGridCateg.value];
+    obj.Categ = e.target.formGridCateg.value;
     console.log(obj);
     console.log(111111);
     const result = await put_Prom("/PdPut/" + props._id, { obj });
@@ -255,8 +248,12 @@ export default function PdInfoForm(props) {
               as='select'
               required
               disabled={props.isDisabled}
-              onChange={handleCategs}
-              defaultValue={categFar?._id}>
+              onChange={handleCategs}>
+              {categFar && (
+                <option value={categFar._id} key={categFar._id}>
+                  {categFar.code}
+                </option>
+              )}
               {categs?.map((categ) => {
                 return (
                   <option value={categ._id} key={categ._id}>
@@ -276,9 +273,9 @@ export default function PdInfoForm(props) {
               disabled={props.isDisabled}
               onChange={handleCategChild}
               defaultValue={categChild?._id}>
-              {/* {categChild && (
+              {categChild && (
                 <option value={categChild._id}>{categChild.code}</option>
-              )} */}
+              )}
               {SecondLevelCategs?.map((categ) => {
                 return (
                   <option value={categ._id} key={categ._id}>

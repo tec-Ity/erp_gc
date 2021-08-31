@@ -132,7 +132,7 @@ export default function UserTable(props) {
               + {user.phonePre.slice(2, 4)} {user.phone}
             </td>
             <td>
-              {localStorage.getItem("role_crUser") < user.role && (
+              {localStorage.getItem("role_curUser") < user.role && (
                 <Link to={homeLink + "/users/" + user._id}>
                   <Button variant='success'>管理</Button>
                 </Link>

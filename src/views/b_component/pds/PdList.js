@@ -92,7 +92,7 @@ export default function PdList(props) {
                     </Button>
                   )
                 ) : (
-                  localStorage.getItem("role_crUser") < 100 && (
+                  localStorage.getItem("role_curUser") < 100 && (
                     <Link to={homeLink + "/pds/" + pd._id}>
                       <Button variant='success'>管理</Button>
                     </Link>

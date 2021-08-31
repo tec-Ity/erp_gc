@@ -56,6 +56,7 @@ export default function ModalAddCateg(props) {
       // setDisableAddButton(false);
     } catch (e) {
       console.log(e);
+      
     }
   };
 

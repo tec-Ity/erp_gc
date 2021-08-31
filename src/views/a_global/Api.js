@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const api_DNS = "http://192.168.43.20:3000"; //ge
-const api_DNS = "http://192.168.43.187:3000"; //hy8
-// const api_DNS = "http://172.20.10.3:3000";//green
+const api_DNS = "http://192.168.43.20:8000"; //ge
+// const api_DNS = "http://192.168.43.187:8000"; //hy8
+// const api_DNS = "http://172.20.10.3:8000";//green
 // const api_DNS = "http://207.154.213.244:8000";//server
 const api_version = "/api/b1";
 

@@ -89,7 +89,7 @@ export default function ModalAddPd(props) {
     obj.sort = parseInt(e.target.formGridSort.value);
     obj.unit = String(e.target.formGridUnit.value);
     obj.desp = String(e.target.formGridDesp.value);
-    obj.Categs = [e.target.formGridCateg.value];
+    obj.Categ = e.target.formGridCateg.value;
     // console.log(obj);
     console.log(imgPath);
     const formData = new FormData();

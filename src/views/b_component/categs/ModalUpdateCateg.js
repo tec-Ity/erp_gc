@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Col } from "react-bootstrap";
-import { put_Prom, get_DNS, axios_Prom } from "../../a_global/Api";
+import { put_Prom, get_DNS, axios_Prom, delete_Prom } from "../../a_global/Api";
 import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalUpdateCateg(props) {
@@ -19,7 +19,13 @@ export default function ModalUpdateCateg(props) {
     setImgPath([imgs[0]]);
   };
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    const deleteRes = await delete_Prom("/CategDelete/" + props.upCateg._id);
+    if (deleteRes.status === 200) {
+      alert("删除成功");
+      window.location.reload();
+    } else alert(deleteRes.message);
+  };
 
   const handleUpdateCateg = async (e) => {
     try {

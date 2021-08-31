@@ -57,7 +57,7 @@ export default function BrandList(props) {
               <td className=' align-middle'>{bd.Nation.code}</td>
               <td className=' align-middle'>{bd.sort}</td>
               <td className=' align-middle'>
-                {localStorage.getItem("role_crUser") < 100 && (
+                {localStorage.getItem("role_curUser") < 100 && (
                   <Link to={homeLink + "/brands/" + bd._id}>
                     <Button variant='success'>管理</Button>
                   </Link>

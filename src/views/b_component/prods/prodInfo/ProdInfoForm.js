@@ -32,7 +32,7 @@ export default function ProdInfoForm(props) {
       setBrand(result2.data?.object);
 
       const result3 = await get_Prom(
-        "/Categ/" + result.data?.object?.Categs[0]?._id
+        "/Categ/" + result.data?.object?.Categ?._id
       );
       setCategChild(result3.data?.object);
 
