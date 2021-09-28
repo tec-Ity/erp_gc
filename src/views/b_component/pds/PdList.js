@@ -9,11 +9,21 @@ export default function PdList(props) {
     props;
   const [Pds, setPds] = useState(null);
   const [PdList, setPdList] = useState();
+
   useEffect(() => {
+    const popObj = [
+      {
+        path: "Categ",
+        select: "code Categ_far",
+        populate: [{ path: "Categ_far", select: "code" }],
+      },
+    ];
     console.log("loading");
     const getPdList = async () => {
       try {
-        const resultPds = await get_Prom("/Pds");
+        const resultPds = await get_Prom(
+          "/Pds?populateObjs=" + JSON.stringify(popObj)
+        );
         const pds = resultPds.data?.objects;
         console.log(pds);
         setPds(pds);
@@ -59,8 +69,8 @@ export default function PdList(props) {
                 {pd.img_urls.length > 0 ? (
                   <img
                     width='50px'
-                    height="50px"
-                    style={{objectFit:"scale-down"}}
+                    height='50px'
+                    style={{ objectFit: "scale-down" }}
                     src={get_DNS() + pd.img_urls[0]}
                     alt={pd.code}
                   />
@@ -75,6 +85,9 @@ export default function PdList(props) {
               <td className=' align-middle' title={pd.code_bar}>
                 {pd.nome}
               </td>
+                {console.log('pd',pd)}
+              <td className=' align-middle'>{pd.Categ?.Categ_far.code}</td>
+              <td className=' align-middle'>{pd.Categ?.code}</td>
               <td className=' align-middle'>{pd.price_regular}</td>
               <td className=' align-middle'>{pd.unit}</td>
               <td className=' align-middle'>{pd.Brand?.code}</td>
@@ -115,6 +128,8 @@ export default function PdList(props) {
             <th>序号</th>
             <th>图片</th>
             <th title='条形码'>产品名</th>
+            <th>一级分类</th>
+            <th>二级分类</th>
             <th>默认价格</th>
             <th>单位</th>
             <th>品牌</th>
