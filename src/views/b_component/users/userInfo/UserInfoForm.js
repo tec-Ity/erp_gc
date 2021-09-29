@@ -30,7 +30,7 @@ export default function UserInfoForm(props) {
     obj.phonePre = "0039";
     obj.phone = String(e.target.formGridPhone.value);
     obj.role = String(e.target.formGridRole.value);
-    const result = await put_Prom("/UserPut/" + props._id, { obj });
+    const result = await put_Prom("/User/" + props._id, { obj });
     console.log(result);
     if (result.status === 200) {
       await props.setIsDisabled(true);

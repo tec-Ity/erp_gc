@@ -20,7 +20,7 @@ export default function ModalUpdateCateg(props) {
   };
 
   const handleDelete = async () => {
-    const deleteRes = await delete_Prom("/CategDelete/" + props.upCateg._id);
+    const deleteRes = await delete_Prom("/Categ/" + props.upCateg._id);
     if (deleteRes.status === 200) {
       alert("删除成功");
       window.location.reload();
@@ -42,7 +42,7 @@ export default function ModalUpdateCateg(props) {
         formData.append("image", imgPath[0]);
         const categUpdateResult = await axios_Prom(
           "PUT",
-          "/CategPut_ImgPost/" + props.upCateg._id,
+          "/Categ_ImgPost/" + props.upCateg._id,
           formData
         );
         console.log(categUpdateResult);
@@ -51,7 +51,7 @@ export default function ModalUpdateCateg(props) {
         }
       }
 
-      const result = await put_Prom("/CategPut/" + props.upCateg._id, { obj });
+      const result = await put_Prom("/Categ/" + props.upCateg._id, { obj });
       console.log(result);
       if (result.status === 200) {
         props.onHide();

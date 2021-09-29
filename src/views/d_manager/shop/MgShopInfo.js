@@ -30,7 +30,7 @@ export default function MgShopInfo(props) {
   }, [_id, newServ]);
 
   const handleDeleteShop = async () => {
-    const result = await delete_Prom("/ShopDelete/" + _id);
+    const result = await delete_Prom("/Shop/" + _id);
     hist.push(homeLink + "/shops");
     if (result.status !== 200) {
       alert(result.message);
@@ -81,7 +81,7 @@ export default function MgShopInfo(props) {
           _id={_id}
           infoImage={[shopInfo?.img_url]}
           sectionName='门店Logo'
-          sectionApi='ShopPut'
+          sectionApi='Shop'
           isSingle
         />
       )}

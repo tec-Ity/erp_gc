@@ -10,9 +10,7 @@ export default function ModalAddBrand(props) {
   const [imgPath, setImgPath] = useState([]);
 
   const handleImage = (e) => {
-    console.log(e.target.files)
     const imgs = e.target.files && e.target.files;
-    // console.log(imgs);
     set_imageURL([URL.createObjectURL(imgs[0])]);
     setImgPath([imgs[0]]);
   };
@@ -26,24 +24,19 @@ export default function ModalAddBrand(props) {
   }, []);
 
   const handleAddBrand = async (e) => {
-    console.log(111);
     e.preventDefault();
     const obj = {};
     obj.code = String(e.target.formGridCode.value);
     obj.nome = String(e.target.formGridName.value);
     obj.Nation = String(e.target.formGridNation.value);
     obj.sort = parseInt(e.target.formGridSort.value);
-    console.log(obj);
 
     const formData = new FormData();
     formData.append("image" , imgPath[0]);
     formData.append("obj", JSON.stringify(obj));
 
     try {
-      console.log(1);
-      const brand_result = await axios_Prom("POST", "/BrandPost", formData);
-      console.log(2);
-      console.log(brand_result);
+      const brand_result = await axios_Prom("POST", "/Brand", formData);
       if (brand_result.status === 200) {
         props.onHide();
         const bd = brand_result.data.object;

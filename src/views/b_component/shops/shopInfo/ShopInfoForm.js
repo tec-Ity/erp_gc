@@ -39,7 +39,7 @@ export default function ShopInfoForm(props) {
     obj.Cita = String(e.target.formGridCity.value);
     obj.zip = String(e.target.formGridZip.value);
 
-    const result = await put_Prom("/ShopPut/" + props._id, { obj });
+    const result = await put_Prom("/Shop/" + props._id, { general: obj });
 
     console.log(result);
     if (result.status === 200) {

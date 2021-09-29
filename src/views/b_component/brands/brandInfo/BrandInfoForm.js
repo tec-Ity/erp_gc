@@ -12,7 +12,7 @@ export default function BrandInfoForm(props) {
     obj.nome = String(e.target.formGridName.value);
     obj.sort = String(e.target.formGridSort.value);
     obj.Nation = String(e.target.formGridNation.value);
-    const result = await put_Prom("/BrandPut/" + props._id, { obj });
+    const result = await put_Prom("/Brand" + props._id, { obj });
     console.log(result);
     if (result.status === 200) {
       props.setIsDisabled(true);

@@ -49,7 +49,7 @@ export default function SfBrandInfo(props) {
           _id={_id}
           infoImage={[brandInfo?.img_url]}
           sectionName='品牌'
-          sectionApi='BrandPut'
+          sectionApi='Brand'
           isSingle
         />
       )}

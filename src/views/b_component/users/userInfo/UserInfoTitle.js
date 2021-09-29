@@ -35,7 +35,7 @@ export default function UserInfoTitle(props) {
 						className="ml-3"
 						onClick={async () => {
 							const result = await delete_Prom(
-								"/UserDelete/" + props._id
+								"/User/" + props._id
 							);
 							if(result.status === 200){
 								alert('删除成功')

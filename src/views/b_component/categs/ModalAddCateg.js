@@ -42,7 +42,7 @@ export default function ModalAddCateg(props) {
 
     try {
       console.log(1);
-      const categ_result = await axios_Prom("POST", "/CategPost", formData);
+      const categ_result = await axios_Prom("POST", "/Categ", formData);
       console.log(2);
       console.log(categ_result);
       if (categ_result.status === 200) {

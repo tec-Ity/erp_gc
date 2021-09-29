@@ -46,10 +46,8 @@ function DeleteButton(props) {
       className='d-block px-4'
       onClick={async (e) => {
         const result = await put_Prom(
-          "/ShopPut/" +
-            props.shopId +
-            "/serveCitaDelete/" +
-            props.sCita.Cita._id
+          "/Shop/" + props.shopId,
+          { serveCitaDelete: {Cita:props.sCita.Cita._id }}
         );
         if (result.status === 200) {
           props.set_newServ(result.data?.object);
@@ -97,8 +95,8 @@ export default function ShopInfoService(props) {
     obj.price_ship = parseFloat(e.target.newFee.value);
 
     const result = await put_Prom(
-      "/ShopPut/" + props.shopInfo._id + "/serveCitaPost",
-      { obj }
+      "/Shop/" + props.shopInfo._id ,
+      { serveCitaPost: obj }
     );
     console.log(result);
     if (result.status === 200) {
@@ -111,12 +109,14 @@ export default function ShopInfoService(props) {
 
   const handleChangeFee = async (e) => {
     e.preventDefault();
-    const citaId = e.target[1].id;
-    const obj = {};
-    obj.price_ship = e.target[1].value;
+    const sCita_id = e.target[1].id;
+    const obj = {
+      _id: sCita_id,
+      price_ship: e.target[1].value,
+    };
     const result = await put_Prom(
-      "/ShopPut/" + props.shopInfo._id + "/serveCitaPut/" + citaId,
-      { obj }
+      "/Shop/" + props.shopInfo._id,
+      { serveCitaPut: obj }
     );
     if (result.status === 200) {
       props.set_newServ(result.data?.object);
@@ -221,7 +221,7 @@ export default function ShopInfoService(props) {
               <Col md={4}>
                 <Form.Group controlId={sCita._id + "city"}>
                   <Form.Control
-                    value={sCita.Cita.nome}
+                    value={sCita._id+' '+sCita.Cita._id +' '+sCita.Cita.nome}
                     type='text'
                     required
                     disabled
@@ -229,7 +229,7 @@ export default function ShopInfoService(props) {
                 </Form.Group>
               </Col>
               <Col md={4}>
-                <Form.Group controlId={sCita.Cita._id}>
+                <Form.Group controlId={sCita._id}>
                   <Form.Control
                     value={sCita.price_ship}
                     className={sCita._id}

@@ -26,7 +26,7 @@ export default function BrandInfoTitle(props) {
 						className="ml-3"
 						onClick={async () => {
 							const result = await delete_Prom(
-								"/BrandDelete/" + props._id
+								"/Brand/" + props._id
 							);
 							if(result.status ===200){
 								alert('删除成功！')

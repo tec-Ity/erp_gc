@@ -54,10 +54,10 @@ export default function ModalAddShop(props) {
     formData.append("image", imgPath[0]);
     formData.append("obj", JSON.stringify(obj));
 
-    const shop_result = await axios_Prom("POST", "/ShopPost", formData);
+    const shop_result = await axios_Prom("POST", "/Shop", formData);
     console.log(shop_result);
 
-    // const result = await post_Prom("/ShopPost", { obj });
+    // const result = await post_Prom("/Shop", { obj });
     // console.log(result);
     // if (result.status === 200) {
     //   props.onHide();

@@ -80,7 +80,6 @@ export default function InfoImageSection(props) {
         console.log(i);
         console.log(formData.get("image" + i));
       }
-      console.log("/" + sectionApi + "_ImgPost/" + _id);
       const imgResult = await axios_Prom(
         "PUT",
         "/" + sectionApi + "_ImgPost/" + _id,

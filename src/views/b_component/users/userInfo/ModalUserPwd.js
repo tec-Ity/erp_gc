@@ -9,7 +9,7 @@ export default function ModalUserPwd(props) {
 		e.preventDefault();
 		const obj = {};
 		obj.pwd = String(e.target.formGridPwd.value);
-		const result = await put_Prom("/UserPut/" + props.userId, {
+		const result = await put_Prom("/User/" + props.userId, {
 			obj,
 		});
 

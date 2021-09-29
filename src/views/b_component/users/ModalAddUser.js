@@ -37,7 +37,7 @@ export default function ModalAddUser(props) {
     if (addUserRole >= 101 && crUR !== 101) {
       obj.Shop = String(e.target.formGridShop.value);
     }
-    const result = await post_Prom("/UserPost", { obj });
+    const result = await post_Prom("/User", { obj });
     console.log(result);
     if (result.status === 200) {
       props.onHide();
