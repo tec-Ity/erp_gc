@@ -45,7 +45,7 @@ function SkuCard(props) {
   const handleDelete = async (e) => {
     e.preventDefault();
     console.log(Product?._id);
-    const result = await delete_Prom("/SkuDelete/" + Product?._id);
+    const result = await delete_Prom("/Sku/" + Product?._id);
     console.log(result);
 
     if (result.status === 200) {

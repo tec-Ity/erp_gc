@@ -62,7 +62,7 @@ export default function ProdInfoForm(props) {
     obj.desp = String(e.target.formGridDesp.value);
     obj.Categs = [e.target.formGridCateg.value];
 
-    const result = await put_Prom("/ProdPut/" + props._id, { obj });
+    const result = await put_Prom("/Prod/" + props._id, { obj });
     console.log(obj);
     console.log(result);
 

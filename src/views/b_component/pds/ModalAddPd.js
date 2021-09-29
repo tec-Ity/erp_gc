@@ -105,7 +105,7 @@ export default function ModalAddPd(props) {
 
     try {
       console.log(1);
-      const pd_result = await axios_Prom("POST", "/PdPost", formData);
+      const pd_result = await axios_Prom("POST", "/Pd", formData);
       console.log(2);
       console.log(pd_result);
       if (pd_result.status === 200) {

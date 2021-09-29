@@ -69,7 +69,7 @@ export default function SfPdInfo(props) {
           _id={_id}
           infoImage={productInfo?.img_urls}
           sectionName='产品'
-          sectionApi='PdPut'
+          sectionApi='Pd'
         />
       )}
       <hr className='my-4' />

@@ -11,7 +11,7 @@ export default function SwProdAdd(props) {
   const SyncProd = async (e) => {
     console.log('sync')
     console.log(e.target.value);
-    const result = await post_Prom("/ProdPost", {
+    const result = await post_Prom("/Prod", {
       Pd: e.target.value,
       Shop: localStorage.getItem("crShop"),
     });

@@ -14,7 +14,7 @@ export default function ProdAttr(props) {
 
   const handleDelete = async (e, _id) => {
     e.preventDefault();
-    const result = await delete_Prom("/AttrDelete/" + _id);
+    const result = await delete_Prom("/Attr/" + _id);
     if (result.status === 200) {
       alert("删除成功");
       console.log(result.data?.object);
@@ -35,7 +35,7 @@ export default function ProdAttr(props) {
     console.log({ nome: nome });
     const obj = {};
     obj.nome = nome;
-    const result = await put_Prom("/AttrPut/" + _id, { obj });
+    const result = await put_Prom("/Attr/" + _id, { general:obj });
     console.log(result);
     if (result.status === 200) {
       console.log(result.data?.object);
@@ -63,7 +63,7 @@ export default function ProdAttr(props) {
       obj.nome=String(e.target.FormAttrName.value);
       obj.options=String(e.target.FormAttrValue.value);
       console.log(obj)
-      const result = await post_Prom('/AttrPost' , {obj});
+      const result = await post_Prom('/Attr' , {obj});
       console.log(result);
       if(result.status===200){
           alert("属性添加成功");

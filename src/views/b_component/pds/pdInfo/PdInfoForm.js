@@ -96,7 +96,7 @@ export default function PdInfoForm(props) {
     obj.Categ = e.target.formGridCateg.value;
     console.log(obj);
     console.log(111111);
-    const result = await put_Prom("/PdPut/" + props._id, { obj });
+    const result = await put_Prom("/Pd/" + props._id, { obj });
 
     console.log(result);
     if (result.status === 200) {

@@ -20,10 +20,8 @@ export default function AttrModalUpdate(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const obj = {};
-    obj.options = String(NewAttrValue);
-    const result = await put_Prom("/AttrPut/" + props._id + "/optionPost", {
-      obj,
-    });
+    obj.option = String(NewAttrValue);
+    const result = await put_Prom("/Attr/" + props._id , { optionPost: obj });
     console.log(result);
     if (result.status === 200) {
       alert("添加成功");
@@ -35,12 +33,10 @@ export default function AttrModalUpdate(props) {
 
   const handleUpdate = async (e, index, option) => {
     e.preventDefault();
-    const putObj = {};
-    putObj.option = PrevOptions[index];
-    putObj.optionPut = option;
-    const result = await put_Prom("/AttrPut/" + props._id + "/optionPut", {
-      putObj,
-    });
+    const obj = {};
+    obj.option = PrevOptions[index];
+    obj.optionPut = option;
+    const result = await put_Prom("/Attr/" + props._id , { optionPut: obj });
     if (result.status === 200) {
       alert("修改成功");
       const array = [...PrevOptions].map((op) => {
@@ -66,11 +62,9 @@ export default function AttrModalUpdate(props) {
   };
 
   const handleDelete = async (option) => {
-    const delObj = {};
-    delObj.options = option;
-    const result = await put_Prom("/AttrPut/" + props._id + "/optionDelete", {
-      delObj,
-    });
+    const optionDelete = {};
+    optionDelete.options = option;
+    const result = await put_Prom("/Attr/" + props._id , {optionDelete });
     console.log(result);
     if (result.status === 200) {
       alert("删除成功");

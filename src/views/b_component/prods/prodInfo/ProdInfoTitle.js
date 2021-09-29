@@ -22,7 +22,7 @@ export default function ProdInfoTitle(props) {
                 variant='danger'
                 className='ml-3'
                 onClick={async () => {
-                  const result = await delete_Prom("/ProdDelete/" + props._id);
+                  const result = await delete_Prom("/Prod/" + props._id);
                   if (result.status === 200) {
                     alert("删除成功！");
                     window.location.replace(props.homeLink+'/prods')

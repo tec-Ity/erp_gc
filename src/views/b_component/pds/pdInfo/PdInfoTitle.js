@@ -24,7 +24,7 @@ export default function PdInfoTitle(props) {
                 variant='danger'
                 className='ml-3'
                 onClick={async () => {
-                  const result = await delete_Prom("/PdDelete/" + props._id);
+                  const result = await delete_Prom("/Pd/" + props._id);
                   if (result.status === 200) {
                     alert("删除成功！");
                   } else {
