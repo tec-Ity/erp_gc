@@ -17,7 +17,7 @@ export default function SfPdInfo(props) {
   const [productInfo, setProductInfo] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [newPd, set_newPd] = useState();
-  const [newImage, setNewImage] = useState();
+  const [newImage, ] = useState();
   const [LoadingModalShow, setLoadingModalShow] = useState(true);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Col } from "react-bootstrap";
-import { get_Prom, axios_Prom } from "../../a_global/Api";
+import { get_Prom } from "../../a_global/Api";
 import AddImage from "../../a_global/image/AddImage";
 
 export default function ModalAddShop(props) {
@@ -51,7 +51,7 @@ export default function ModalAddShop(props) {
     formData.append("image", imgPath[0]);
     formData.append("obj", JSON.stringify(obj));
 
-    const shop_result = await axios_Prom("POST", "/Shop", formData);
+    // const shop_result = await axios_Prom("POST", "/Shop", formData);
 
     // const result = await post_Prom("/Shop", { obj });
     // if (result.status === 200) {

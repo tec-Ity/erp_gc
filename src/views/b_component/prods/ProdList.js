@@ -16,11 +16,13 @@ export default function ProdList(props) {
         const result = query?await get_Prom('/prods?' + query):await get_Prom("/Prods");
         const prods = result.data?.objects;
         setProds(prods);
-      } catch {
+      } catch(e) {
+
         // setProds(null);
       }
     };
     getProdList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

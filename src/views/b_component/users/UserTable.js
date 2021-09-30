@@ -116,6 +116,7 @@ export default function UserTable(props) {
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [atBottom, backPage]);
 
   useEffect(() => {
