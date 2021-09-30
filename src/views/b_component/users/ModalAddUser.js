@@ -38,7 +38,6 @@ export default function ModalAddUser(props) {
       obj.Shop = String(e.target.formGridShop.value);
     }
     const result = await post_Prom("/User", { obj });
-    console.log(result);
     if (result.status === 200) {
       props.onHide();
       set_addUserRole(0);

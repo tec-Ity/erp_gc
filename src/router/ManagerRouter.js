@@ -9,7 +9,6 @@ import SbUsers from "../views/d_sboss/user/SbUsers";
 
 export default function ManagerRouter() {
   const [homeLink] = useState("/manager/home");
-  console.log("ManagerRouter");
   let hist = useHistory();
 
   return (

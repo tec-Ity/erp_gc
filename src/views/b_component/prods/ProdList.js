@@ -14,9 +14,7 @@ export default function ProdList(props) {
     const getProdList = async () => {
       try {
         const result = query?await get_Prom('/prods?' + query):await get_Prom("/Prods");
-        console.log(result)
         const prods = result.data?.objects;
-        // console.log(prods)
         setProds(prods);
       } catch {
         // setProds(null);

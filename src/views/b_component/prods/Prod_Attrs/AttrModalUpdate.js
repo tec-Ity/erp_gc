@@ -22,7 +22,6 @@ export default function AttrModalUpdate(props) {
     const obj = {};
     obj.option = String(NewAttrValue);
     const result = await put_Prom("/Attr/" + props._id , { optionPost: obj });
-    console.log(result);
     if (result.status === 200) {
       alert("添加成功");
       props.setNewAttr(result.data?.object);
@@ -65,7 +64,6 @@ export default function AttrModalUpdate(props) {
     const optionDelete = {};
     optionDelete.options = option;
     const result = await put_Prom("/Attr/" + props._id , {optionDelete });
-    console.log(result);
     if (result.status === 200) {
       alert("删除成功");
       const array = [...Options].filter((op) => {

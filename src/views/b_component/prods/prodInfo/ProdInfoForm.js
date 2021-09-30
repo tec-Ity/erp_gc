@@ -63,8 +63,6 @@ export default function ProdInfoForm(props) {
     obj.Categs = [e.target.formGridCateg.value];
 
     const result = await put_Prom("/Prod/" + props._id, { obj });
-    console.log(obj);
-    console.log(result);
 
     if (result.status === 200) {
       const pd = result.data?.object;
@@ -80,10 +78,8 @@ export default function ProdInfoForm(props) {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
     setCategFar(result.data?.object);
-    console.log(result);
     if (result.status === 200) {
       const childrenCategs = result.data?.object.Categ_sons;
-      console.log(childrenCategs);
       setSecondLevelCategs(childrenCategs);
     }
   };
@@ -306,7 +302,6 @@ export default function ProdInfoForm(props) {
         )}
       </Form>
       <hr />
-      {/* {console.log("attr", props)} */}
       {ProdInfo && (
         <ProdAttr
           _id={props._id}

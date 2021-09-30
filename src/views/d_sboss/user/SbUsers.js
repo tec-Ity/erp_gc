@@ -24,7 +24,6 @@ export default function SbUsers(props) {
   });
 
   useEffect(() => {
-    console.log('new sort')
     setUrlQuery((prevUq) => ({
       ...prevUq,
       page: 1,
@@ -35,7 +34,6 @@ export default function SbUsers(props) {
   const handleChangeQuery = (e, key) => {
     if (key === "is_usable") {
       e.target.blur();
-      console.log(e.target.checked);
       setUrlQuery((prevUq) => ({
         ...prevUq,
         [key]: e.target.checked,

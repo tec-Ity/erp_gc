@@ -41,7 +41,6 @@ export default function ShopInfoForm(props) {
 
     const result = await put_Prom("/Shop/" + props._id, { general: obj });
 
-    console.log(result);
     if (result.status === 200) {
       props.setIsDisabled(true);
       set_loadingModal(false);
@@ -240,7 +239,6 @@ export default function ShopInfoForm(props) {
               onClick={async () => {
                 props.setIsDisabled(true);
                 const result = await get_Prom("/Shop/" + props._id);
-                console.log(result);
                 props.set_ShopInfo(result.data?.object);
               }}>
               取消更改

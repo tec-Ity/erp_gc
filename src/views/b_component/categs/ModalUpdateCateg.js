@@ -12,9 +12,7 @@ export default function ModalUpdateCateg(props) {
   const [showChangeImg, setShowChangeImg] = useState(false);
 
   const handleImage = (e) => {
-    console.log(e.target.files);
     const imgs = e.target.files && e.target.files;
-    // console.log(imgs);
     set_imageURL([URL.createObjectURL(imgs[0])]);
     setImgPath([imgs[0]]);
   };
@@ -32,27 +30,23 @@ export default function ModalUpdateCateg(props) {
       e.preventDefault();
       const obj = {};
       obj.code = String(e.target.formGridCode.value);
-      console.log(obj.code);
       props.upCateg.level === 2
         ? (obj.Categ_far = String(e.target.formGridFar.value))
         : (obj.Categ_far = null);
       const formData = new FormData();
       if (imgPath.length > 0 && showChangeImg === true) {
-        console.log(imgPath[0]);
         formData.append("image", imgPath[0]);
         const categUpdateResult = await axios_Prom(
           "PUT",
           "/Categ_ImgPost/" + props.upCateg._id,
           formData
         );
-        console.log(categUpdateResult);
         if (categUpdateResult.status !== 200) {
           alert(categUpdateResult.message);
         }
       }
 
       const result = await put_Prom("/Categ/" + props.upCateg._id, { obj });
-      console.log(result);
       if (result.status === 200) {
         props.onHide();
         const bd = result.data?.object;
@@ -62,7 +56,7 @@ export default function ModalUpdateCateg(props) {
         alert(result.message);
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 

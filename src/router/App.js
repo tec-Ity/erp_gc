@@ -45,7 +45,6 @@ export default function App() {
       localStorage.setItem("name_curUser", curUser.nome);
       localStorage.setItem("accessToken", result.data?.accessToken);
       localStorage.setItem("refreshToken", result.data?.refreshToken);
-      console.log(curUser);
       curUser.Shop && localStorage.setItem("crShop", curUser.Shop);
       setValue((value) => {
         return value + 1;

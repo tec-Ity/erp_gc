@@ -13,7 +13,6 @@ export default function BrandInfoForm(props) {
     obj.sort = String(e.target.formGridSort.value);
     obj.Nation = String(e.target.formGridNation.value);
     const result = await put_Prom("/Brand" + props._id, { obj });
-    console.log(result);
     if (result.status === 200) {
       props.setIsDisabled(true);
       alert("修改成功");
@@ -27,7 +26,6 @@ export default function BrandInfoForm(props) {
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Nations");
-      console.log(result);
       const nations = result.data?.objects;
       set_Nations(nations);
     }
@@ -120,7 +118,6 @@ export default function BrandInfoForm(props) {
               onClick={async () => {
                 props.setIsDisabled(true);
                 const result = await get_Prom("/Brand/" + props._id);
-                console.log(result);
                 props.set_brandInfo(result.data?.object);
               }}>
               取消更改

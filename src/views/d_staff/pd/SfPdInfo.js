@@ -30,7 +30,6 @@ export default function SfPdInfo(props) {
 
   useEffect(() => {
     async function func() {
-      console.log("call pd");
       const result = await get_Prom("/Pd/" + _id);
       setProductInfo(result.data?.object);
     }
@@ -73,7 +72,6 @@ export default function SfPdInfo(props) {
         />
       )}
       <hr className='my-4' />
-        {console.log('productinfo',productInfo)}
       {productInfo && <PdProdsList prods={productInfo.Prods} />}
 
       <hr className='my-4' />

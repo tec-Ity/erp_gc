@@ -12,7 +12,6 @@ import NotFound from "../views/a_global/NotFound";
 
 export default function StaffRouter() {
   const [homeLink] = useState("/staff/home");
-  console.log("StaffRouter");
   let hist = useHistory();
   return (
     <Switch>

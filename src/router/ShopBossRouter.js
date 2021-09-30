@@ -7,7 +7,6 @@ import NotFound from "../views/a_global/NotFound";
 
 export default function ShopBossRouter() {
   const [homeLink] = useState("/sboss/home");
-  console.log("ShopBossRouter");
   let hist = useHistory();
 
   return (
@@ -20,7 +19,6 @@ export default function ShopBossRouter() {
       <Route exact path={homeLink + "/users/:_id"}>
         <SbUserInfo homeLink={homeLink} />
       </Route>
-	  {/* {console.log(1)} */}
       <Route path='*'>
         <NotFound />
       </Route>

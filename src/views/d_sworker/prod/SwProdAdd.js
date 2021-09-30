@@ -9,15 +9,12 @@ export default function SwProdAdd(props) {
   const [newPd, ] = useState();
 
   const SyncProd = async (e) => {
-    console.log('sync')
-    console.log(e.target.value);
     const result = await post_Prom("/Prod", {
       Pd: e.target.value,
       Shop: localStorage.getItem("crShop"),
     });
-    console.log(result);
+     ;
     if (result.status === 200) {
-      console.log(props.homeLink + "/prods/" + result.data?.object._id);
       window.location.href =
         props.homeLink + "/prods/" + result.data?.object._id;
       alert("同步成功");

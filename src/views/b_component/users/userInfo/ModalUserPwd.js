@@ -13,7 +13,7 @@ export default function ModalUserPwd(props) {
 			obj,
 		});
 
-		console.log(result)
+		 
 		if (result.status === 200) {
 			alert("修改成功")
 			props.onHide();

@@ -33,7 +33,6 @@ export default function ProductModalAdd(props) {
         });
       }
 
-      console.log(attrList);
       obj.attrs = attrList;
       obj.is_usable = IsUsable;
       obj.is_controlStock = IsControlStock;
@@ -44,9 +43,7 @@ export default function ProductModalAdd(props) {
       obj.purchase_note = e.target.FormProductNote.value;
       obj.quantity = e.target.FormProductQuantity.value;
 
-      console.log(obj);
-      const result = await post_Prom("/SkuPost", { obj });
-      console.log(result);
+      const result = await post_Prom("/Sku", { obj });
 
       if (result.status === 200) {
         alert("SKU添加成功");
@@ -56,13 +53,11 @@ export default function ProductModalAdd(props) {
         alert(result.message);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 
   useEffect(() => {
     setDefaultProduct(props.DefaultProduct);
-    console.log('attrs', props.Attrs)
     setAttrs(props.Attrs && props.Attrs);
     setIsControlStock(
       props.DefaultProduct?.is_controlStock &&

@@ -35,7 +35,6 @@ export default function InfoImageSection(props) {
   const handleModifyImage = (e) => {
     if (e.target.files?.length > 0) {
       const imgs = e.target.files;
-      console.log(imgs);
       if (Boolean(isSingle)) {
         set_imageURL([URL.createObjectURL(imgs[0])]);
         setImgPath([imgs[0]]);
@@ -45,7 +44,6 @@ export default function InfoImageSection(props) {
             ...imageURL,
             URL.createObjectURL(imgs[i]),
           ]);
-          console.log(imgs[i]);
           setImgPath((imgPath) => [...imgPath, imgs[i]]);
         }
       }
@@ -54,8 +52,6 @@ export default function InfoImageSection(props) {
 
   const handleCancelModify = (e) => {
     e.preventDefault();
-    console.log("prev", prevImageURL);
-    console.log("cur", imageURL);
     set_imageURL(prevImageURL);
     setImgPath(prevImgPath);
     setShowAdd(false);
@@ -64,21 +60,15 @@ export default function InfoImageSection(props) {
   };
 
   const handleUpdateImageToServer = async (e) => {
-    console.log(111);
     e.preventDefault();
-    console.log("path", imgPath);
-    console.log(prevImgPath);
     if (!imgPath.length > 0 || imgPath === prevImgPath) {
       alert("请选择新图片");
       setShowModify(false);
       setShowAdd(false);
     } else {
       const formData = new FormData();
-      console.log(imgPath);
       for (let i = 0; i < imgPath.length; i++) {
         formData.append("image" + i, imgPath[i]);
-        console.log(i);
-        console.log(formData.get("image" + i));
       }
       const imgResult = await axios_Prom(
         "PUT",
@@ -86,7 +76,6 @@ export default function InfoImageSection(props) {
         formData
       );
 
-      console.log(imgResult);
       if (imgResult.status === 200) {
         setShowAdd(false);
         setShowModify(false);
@@ -103,8 +92,6 @@ export default function InfoImageSection(props) {
           ? [imgResult.data.object.img_url]
           : imgResult.data.object.img_urls;
 
-        console.log("server url", imgURLs);
-        console.log("server path", imgPaths);
         setPrevImgPath(imgPaths);
         setImgPath(imgPaths);
         set_prevImageURL(imgURLs);
@@ -117,18 +104,14 @@ export default function InfoImageSection(props) {
 
   const handleDeleteImage = (img) => async (e) => {
     try {
-      console.log(img);
       const imgURL = img.split(get_DNS())[1];
-      console.log(imgURL);
       const delObj = { img_urls: [imgURL] };
       const resultDelete = await put_Prom(
         "/" + sectionApi + "_ImgDelete/" + _id,
         { delObj }
       );
 
-      console.log(resultDelete);
       if (resultDelete.status === 200) {
-        console.log("删除成功");
         const imgURLs = isSingle
           ? [get_DNS() + resultDelete.data.object.img_url]
           : resultDelete.data.object.img_urls.map((img) => {
@@ -139,8 +122,6 @@ export default function InfoImageSection(props) {
           ? [resultDelete.data.object.img_url]
           : resultDelete.data.object.img_urls;
 
-        console.log("server url", imgURLs);
-        console.log("server path", imgPaths);
         setPrevImgPath(imgPaths);
         setImgPath(imgPaths);
         set_prevImageURL(imgURLs);
@@ -149,12 +130,11 @@ export default function InfoImageSection(props) {
         alert(resultDelete.message);
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 
   const imagesList = imageURL?.map((img, index) => {
-    console.log(img);
     return (
       <Card style={{ width: "100px" }} className='m-2' key={img._id}>
         <Card.Img

@@ -33,7 +33,6 @@ export default function PdInfoForm(props) {
       setBrandValue(props.productInfo?.Brand?.code);
       setCategChild(props.productInfo?.Categ && props.productInfo?.Categ);
       setBrandId(props.productInfo?.Brand?._id);
-      console.log("call Nations");
       const result = await get_Prom("/Nations");
       set_nations(result.data?.objects);
 
@@ -64,18 +63,14 @@ export default function PdInfoForm(props) {
     // setBrandId(null);
     async function func() {
       if (brandFilter) {
-        console.log("filter", brandFilter);
         const result3 = await get_Prom("/Brands?&search=" + brandFilter);
-        console.log("good", result3);
         if (result3.status === 200 && result3.data.objects.length > 0) {
           if (result3.data.object !== null) {
             setBrandId(result3.data.object._id);
           }
-          console.log("list", result3.data.objects);
           setBrands(result3.data.objects);
         } else {
           setBrands([{ _id: null, code: "无品牌" }]);
-          console.log("无品牌");
         }
       }
     }
@@ -94,11 +89,8 @@ export default function PdInfoForm(props) {
     obj.unit = String(e.target.formGridUnit.value);
     obj.desp = String(e.target.formGridDesp.value);
     obj.Categ = e.target.formGridCateg.value;
-    console.log(obj);
-    console.log(111111);
     const result = await put_Prom("/Pd/" + props._id, { obj });
 
-    console.log(result);
     if (result.status === 200) {
       const pd = result.data?.object;
       props.set_newPd(pd);
@@ -111,7 +103,6 @@ export default function PdInfoForm(props) {
 
   const handleShowBrand = (e) => {
     if (e.target.value.length > 2) {
-      console.log(e.target.value);
       setBrandFilter(e.target.value);
       setShowBrand(true);
     } else {
@@ -123,11 +114,9 @@ export default function PdInfoForm(props) {
   const handleCategs = async (e) => {
     const id = e.target.value;
     const result = await get_Prom("/Categ/" + id);
-    console.log(result);
     setCategFar(result.data?.object);
     if (result.status === 200) {
       const childrenCategs = result.data?.object.Categ_sons;
-      console.log(childrenCategs);
       setSecondLevelCategs(childrenCategs);
     }
   };
@@ -200,7 +189,6 @@ export default function PdInfoForm(props) {
                 <ListGroup>
                   {brands?.length > 0 &&
                     brands?.map((brand) => {
-                      console.log("brand", brand);
                       return (
                         <ListGroup.Item
                           action

@@ -31,12 +31,10 @@ export const axios_Prom = async (type, api_router, formData) => {
           },
         });
       }
-      console.log(result);
       if (!result.data.status) return reject(result.data);
 
       return resolve(result.data);
     } catch (e) {
-      console.log(e);
       reject(e);
     }
   });
@@ -67,7 +65,6 @@ const fetchPost_Prom = (api_router, bodyObj) => {
 
       resolve(result);
     } catch (error) {
-      console.log(error);
       reject({ message: "fetchPost_Prom error", error });
     }
   });
@@ -90,7 +87,6 @@ const post_Prom = (api_router, bodyObj) => {
       }
       resolve(result);
     } catch (error) {
-      console.log(error);
       reject({ status: 400, message: "错误" });
     }
   });
@@ -205,7 +201,6 @@ const fetchGet_Prom = (api_router) => {
     try {
       const token = localStorage.getItem("accessToken");
       const api = api_DNS + api_version + api_router;
-      console.log(api_router);
       const resPromise = await fetch(api, {
         headers: {
           "content-type": "application/json",
@@ -221,7 +216,6 @@ const fetchGet_Prom = (api_router) => {
       const result = await resPromise.json();
       resolve(result);
     } catch (error) {
-      console.log(error);
       reject({ message: "fetchGet_Prom error", error });
     }
   });

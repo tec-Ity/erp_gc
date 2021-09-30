@@ -10,7 +10,6 @@ import SbUserInfo from "../views/d_sboss/user/SbUserInfo";
 
 export default function OwnerRouter() {
   const [homeLink] = useState("/owner/home");
-  console.log("OwnerRouter");
   let hist = useHistory();
   return (
     <Switch>

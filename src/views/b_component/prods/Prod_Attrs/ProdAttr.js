@@ -17,7 +17,6 @@ export default function ProdAttr(props) {
     const result = await delete_Prom("/Attr/" + _id);
     if (result.status === 200) {
       alert("删除成功");
-      console.log(result.data?.object);
       const array = [...Attrs].filter((attr) => {
         return attr._id !== _id;
       });
@@ -32,13 +31,10 @@ export default function ProdAttr(props) {
   };
 
   const handleUpdateName = async (nome, _id) => {
-    console.log({ nome: nome });
     const obj = {};
     obj.nome = nome;
     const result = await put_Prom("/Attr/" + _id, { general:obj });
-    console.log(result);
     if (result.status === 200) {
-      console.log(result.data?.object);
       const array = [...Attrs].map((attr) => {
         if (attr._id === _id) {
           attr.nome = nome.toUpperCase();
@@ -62,9 +58,7 @@ export default function ProdAttr(props) {
       obj.Prod=props._id;
       obj.nome=String(e.target.FormAttrName.value);
       obj.options=String(e.target.FormAttrValue.value);
-      console.log(obj)
       const result = await post_Prom('/Attr' , {obj});
-      console.log(result);
       if(result.status===200){
           alert("属性添加成功");
           set_showAdd(false);
@@ -75,7 +69,6 @@ export default function ProdAttr(props) {
           alert(result.message)
       }
   } catch(error){
-      console.log(error)
   }
 };
 
@@ -116,7 +109,6 @@ export default function ProdAttr(props) {
             </Col>
           </Form.Row>
           {Attrs?.map((attr, index) => {
-            console.log(attr)
             return (
               <Form.Row key={index}>
                 <Col md={3}>

@@ -54,7 +54,6 @@ const Payment = () => {
       type: "card",
       card: elements.getElement(CardNumberElement)
     });
-    console.log("[PaymentMethod]", payload);
   };
 
   return (
@@ -69,16 +68,12 @@ const Payment = () => {
                       <CardNumberElement
                         options={options}
                         onReady={() => {
-                          console.log(options);
                         }}
                         onChange={(event) => {
-                          console.log("CardNumberElement [change]", event);
                         }}
                         onBlur={() => {
-                          console.log("CardNumberElement [blur]");
                         }}
                         onFocus={() => {
-                          console.log("CardNumberElement [focus]");
                         }}
                       />
                     </label>
@@ -87,16 +82,12 @@ const Payment = () => {
                       <CardExpiryElement
                         options={options}
                         onReady={() => {
-                          console.log("CardNumberElement [ready]");
                         }}
                         onChange={(event) => {
-                          console.log("CardNumberElement [change]", event);
                         }}
                         onBlur={() => {
-                          console.log("CardNumberElement [blur]");
                         }}
                         onFocus={() => {
-                          console.log("CardNumberElement [focus]");
                         }}
                       />
                     </label>
@@ -105,16 +96,12 @@ const Payment = () => {
                       <CardCvcElement
                         options={options}
                         onReady={() => {
-                          console.log("CardNumberElement [ready]");
                         }}
                         onChange={(event) => {
-                          console.log("CardNumberElement [change]", event);
                         }}
                         onBlur={() => {
-                          console.log("CardNumberElement [blur]");
                         }}
                         onFocus={() => {
-                          console.log("CardNumberElement [focus]");
                         }}
                       />
                     </label>

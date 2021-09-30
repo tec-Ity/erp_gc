@@ -13,7 +13,6 @@ export default function BrandList(props) {
     async function func() {
       try {
         const result = await get_Prom("/Brands");
-        console.log(result);
         const brands = result.data?.objects;
         setBrands(brands);
       } catch {

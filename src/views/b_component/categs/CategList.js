@@ -135,7 +135,6 @@ export default function CategList(props) {
       try {
         const result = await get_Prom("/Categs");
         const categs = result.data?.objects;
-        console.log(categs);
         setCategs(categs);
         set_categFars(categs);
       } catch {

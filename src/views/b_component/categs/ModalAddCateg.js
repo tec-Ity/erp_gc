@@ -11,9 +11,7 @@ export default function ModalAddCateg(props) {
   const [imgPath, setImgPath] = useState([]);
 
   const handleImage = (e) => {
-    console.log(e.target.files)
     const imgs = e.target.files && e.target.files;
-    // console.log(imgs);
     set_imageURL([URL.createObjectURL(imgs[0])]);
     setImgPath([imgs[0]]);
   };
@@ -32,7 +30,6 @@ export default function ModalAddCateg(props) {
     const obj = {};
     obj.code = String(e.target.formGridCode.value);
     obj.level = String(e.target.formGridLevel.value);
-    console.log(obj.code);
     showFar
       ? (obj.Categ_far = String(e.target.formGridFar.value))
       : (obj.Categ_far = null);
@@ -41,10 +38,7 @@ export default function ModalAddCateg(props) {
     formData.append("obj", JSON.stringify(obj));
 
     try {
-      console.log(1);
       const categ_result = await axios_Prom("POST", "/Categ", formData);
-      console.log(2);
-      console.log(categ_result);
       if (categ_result.status === 200) {
         props.onHide();
         const cat = categ_result.data.object;
@@ -55,8 +49,7 @@ export default function ModalAddCateg(props) {
       }
       // setDisableAddButton(false);
     } catch (e) {
-      console.log(e);
-      
+      alert(e);
     }
   };
 
@@ -86,7 +79,6 @@ export default function ModalAddCateg(props) {
                   required
                   onChange={(e) => {
                     if (e.target.value === "2") {
-                      console.log(e.target.value);
                       set_showFar(true);
                     } else if (e.target.value === "1") {
                       set_showFar(false);
@@ -98,7 +90,6 @@ export default function ModalAddCateg(props) {
               </Form.Group>
             </Col>
           </Form.Row>
-          {console.log(showFar)}
           {showFar && (
             <Form.Row>
               <Col xs={12} md={6}>
@@ -107,7 +98,6 @@ export default function ModalAddCateg(props) {
                   <Form.Control as='select' required>
                     <option value=''>请选择分类</option>
                     {levFar?.map((far) => {
-                      console.log(levFar);
                       return (
                         <option value={far._id} key={far._id}>
                           {far.code}

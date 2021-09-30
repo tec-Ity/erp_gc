@@ -19,7 +19,7 @@ export default function SfBrandInfo(props) {
     async function func() {
       const result = await get_Prom("/Brand/" + _id);
       set_brandInfo(result.data?.object);
-      console.log(result)
+       
     }
     func();
   }, [_id, ]);

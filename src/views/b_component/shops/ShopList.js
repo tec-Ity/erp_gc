@@ -51,7 +51,6 @@ export default function ShopList(props) {
     async function func() {
       set_LoadingModalShow(true);
       const result = await get_Prom("/Shops");
-      console.log(result);
       const shops = result.data?.objects;
       set_Shops(shops);
     }

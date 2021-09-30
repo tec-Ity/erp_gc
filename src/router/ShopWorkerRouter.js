@@ -8,7 +8,6 @@ import NotFound from "../views/a_global/NotFound";
 
 export default function ShopWorkerRouter() {
   const [homeLink] = useState("/sworker/home");
-  console.log("ShopWorkerRouter");
   let hist = useHistory();
   return (
     <Switch>

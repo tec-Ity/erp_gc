@@ -44,10 +44,7 @@ function SkuCard(props) {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    console.log(Product?._id);
     const result = await delete_Prom("/Sku/" + Product?._id);
-    console.log(result);
-
     if (result.status === 200) {
       alert("删除成功");
       props.setNewSKU(Product && Product);
@@ -91,9 +88,7 @@ function SkuCard(props) {
       obj.purchase_note = e.target.FormProductNote?.value;
       obj.quantity = e.target.FormProductQuantity?.value;
 
-      console.log(obj);
-      const result = await put_Prom("/SkuPut/" + Product?._id, { obj });
-      console.log(result);
+      const result = await put_Prom("/Sku/" + Product?._id, { obj });
 
       if (result.status === 200) {
         alert("SKU修改成功");
@@ -103,7 +98,6 @@ function SkuCard(props) {
         alert(result.message);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -111,7 +105,6 @@ function SkuCard(props) {
     const attop = Product?.attrs?.find((at) => {
       return at.nome === attr.nome;
     })?.option;
-    console.log(attop);
     const attList = attr.options?.map((option, index) => {
       return attop !== option ? (
         <option value={option || ""} key={option + (index + 1)}>

@@ -98,7 +98,6 @@ export default function ShopInfoService(props) {
       "/Shop/" + props.shopInfo._id ,
       { serveCitaPost: obj }
     );
-    console.log(result);
     if (result.status === 200) {
       set_showAdd(false);
       props.set_newServ(result.data?.object);

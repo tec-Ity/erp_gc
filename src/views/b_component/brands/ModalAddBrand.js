@@ -47,7 +47,7 @@ export default function ModalAddBrand(props) {
       }
       // setDisableAddButton(false);
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 

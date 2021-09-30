@@ -15,7 +15,7 @@ export default function UserInfoForm(props) {
   useEffect(() => {
     async function func() {
       const result = await get_Prom("/Shops");
-      console.log(result);
+       ;
       const shops = result.data?.objects;
       set_Shops(shops);
     }
@@ -31,7 +31,7 @@ export default function UserInfoForm(props) {
     obj.phone = String(e.target.formGridPhone.value);
     obj.role = String(e.target.formGridRole.value);
     const result = await put_Prom("/User/" + props._id, { obj });
-    console.log(result);
+     ;
     if (result.status === 200) {
       await props.setIsDisabled(true);
       alert("修改成功");
@@ -147,7 +147,7 @@ export default function UserInfoForm(props) {
               onClick={async () => {
                 props.setIsDisabled(true);
                 const result = await get_Prom("/User/" + props._id);
-                console.log(result);
+                 ;
                 props.set_userInfo(result.data?.object);
               }}>
               取消更改

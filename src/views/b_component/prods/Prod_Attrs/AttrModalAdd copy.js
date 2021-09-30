@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Col, Button } from "react-bootstrap";
 
 const Attr = (props) => {
-  console.log(props.index);
   return (
     <Form.Row key={props.index}>
       <Col md={{ span: 5, offset: 4 }}>
@@ -15,7 +14,6 @@ const Attr = (props) => {
           <Button
             variant='danger'
             onClick={() => {
-              console.log(props.index);
               props.handleDelete(props.index);
             }}>
             删除
@@ -32,19 +30,13 @@ export default function AttrModalAdd(props) {
   const handleSubmit = async (e) => {};
 
   const handleDelete = (index) => {
-    console.log("=================");
-    console.log("index " + index);
-    console.log(NewAttr)
     // const array = [...NewAttr];
-    // console.log(array);
     // array.splice(index, 1);
-    // console.log(array);
     // setNewAttr(array);
     // setAttrIndex(index - 1);
   };
 
   useEffect(()=>{
-      console.log(NewAttr)
   },[NewAttr])
 
 

@@ -11,7 +11,6 @@ export default function AddImage(props) {
           <div className='d-flex justify-content-start align-items-center flex-wrap'>
             {image.length > 0 &&
               image?.map((img, index) => {
-                console.log(img)
                 return (
                   <img
                     key={index}

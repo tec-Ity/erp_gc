@@ -17,31 +17,23 @@ export default function SwProdInfo(props) {
   const [LoadingModalShow, setLoadingModalShow] = useState(true);
 
   useEffect(() => {
-    console.log('b')
     async function func() {
-      console.log(' 2 ')
       setLoadingModalShow(true);
-      console.log(' 3 ')
       
       const result = await get_Prom("/Prod/" + _id);
-      console.log(' 4 ')
       if (
         result.data?.object !== null &&
         result.data?.object !== undefined &&
         Object.keys(result.data?.object).length !== 0
         ) {
-          console.log('v')
           setLoadingModalShow(false);
-          console.log('v1')
         }
-        console.log(' 5 ')
         if (result.status === 400) {
           setTimeout(() => {
             alert("商品信息不存在，请返回查看");
             window.location.replace(props.homeLink + "/prods");
           }, 5000);
         }
-        console.log('setprod')
       setProductInfo(result.data?.object);
     }
 
@@ -64,8 +56,6 @@ export default function SwProdInfo(props) {
 
       <hr />
       {LoadingModalShow && <LoadingModal show={LoadingModalShow} />}
-      {/* {console.log(1)}
-      {console.log('prodInfo',productInfo)} */}
       
       {productInfo && (
         <ProdInfoForm

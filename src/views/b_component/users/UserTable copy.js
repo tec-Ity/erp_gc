@@ -32,7 +32,6 @@ export default function UserTable(props) {
         }
         if (backPage !== urlQuery.page) {
           const result = await get_Prom("/Users".concat(query));
-          // console.log(result);
           if (result.status === 200) {
             // set_LoadingModalShow(false);
             if (backPage === 0) {
@@ -53,7 +52,6 @@ export default function UserTable(props) {
             alert(result.message + " ，请后退重试");
           }
         }
-        console.log(query)
         set_LoadingModalShow(false);
       } catch {
         set_LoadingModalShow(false);

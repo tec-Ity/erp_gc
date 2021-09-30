@@ -18,14 +18,12 @@ export default function PdList(props) {
         populate: [{ path: "Categ_far", select: "code" }],
       },
     ];
-    console.log("loading");
     const getPdList = async () => {
       try {
         const resultPds = await get_Prom(
           "/Pds?populateObjs=" + JSON.stringify(popObj)
         );
         const pds = resultPds.data?.objects;
-        console.log(pds);
         setPds(pds);
       } catch {
         // setPds(null);
@@ -43,7 +41,6 @@ export default function PdList(props) {
   }, [set_LoadingModalShow, Pds]);
 
   useEffect(() => {
-    console.log("listing");
     const isSynced = (Prods) => {
       for (let i = 0; i < Prods.length; i++) {
         if (Prods[i].Shop === crShop) {
@@ -85,7 +82,6 @@ export default function PdList(props) {
               <td className=' align-middle' title={pd.code_bar}>
                 {pd.nome}
               </td>
-                {console.log('pd',pd)}
               <td className=' align-middle'>{pd.Categ?.Categ_far.code}</td>
               <td className=' align-middle'>{pd.Categ?.code}</td>
               <td className=' align-middle'>{pd.price_regular}</td>

@@ -13,16 +13,13 @@ export default function ModalAddShop(props) {
   const [imgPath, setImgPath] = useState([]);
 
   const handleImage = (e) => {
-    console.log(e.target.files);
     const imgs = e.target.files && e.target.files;
-    // console.log(imgs);
     set_imageURL([URL.createObjectURL(imgs[0])]);
     setImgPath([imgs[0]]);
   };
 
   const getNations = async () => {
     const result = await get_Prom("/Nations");
-    // console.log(result)
     setNations(result.data?.objects);
   };
 
@@ -55,10 +52,8 @@ export default function ModalAddShop(props) {
     formData.append("obj", JSON.stringify(obj));
 
     const shop_result = await axios_Prom("POST", "/Shop", formData);
-    console.log(shop_result);
 
     // const result = await post_Prom("/Shop", { obj });
-    // console.log(result);
     // if (result.status === 200) {
     //   props.onHide();
     //   const shop = result.data?.object;
@@ -145,7 +140,6 @@ export default function ModalAddShop(props) {
               <Form.Control as='select' required>
                 <option value=''>请选择城市</option>
                 {cities?.map((city, i) => {
-                  console.log(city);
                   return (
                     <option value={city._id} key={i}>
                       {city.nome} ({city.code})
